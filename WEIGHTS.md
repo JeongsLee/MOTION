@@ -1,6 +1,6 @@
 # MOTION pretrained weights
 
-Weights are hosted on Zenodo (CC-BY-4.0): **DOI: 10.5281/zenodo.XXXXXXX** (to be filled at release).
+Weights are hosted on Zenodo (CC-BY-4.0): **DOI: [10.5281/zenodo.22104636](https://doi.org/10.5281/zenodo.22104636)**.
 Each archive is a plain `tar` of one folder below; extract into `weights/` at the repository root.
 Per-file SHA-256 sums: `weights/SHA256SUMS.release` in the Zenodo record (`SHA256SUMS.npz`)
 and per-archive sums in `SHA256SUMS.tar`.
