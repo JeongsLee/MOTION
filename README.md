@@ -2,7 +2,7 @@
 
 Code, trained weights and figure data for
 
-> J. Lee, *Mechanism-oriented tendency-integration operator networks for PDE foundation models* (2026, under review).
+> J. Lee, *Mechanism-oriented tendency-integration operator networks for PDE foundation models* (2026, submitted).
 
 MOTION is a PDE foundation model whose per-step tendency is a gated sum of explicit
 physical-mechanism heads (transport, diffusion, pressure/density coupling, reaction,
@@ -132,6 +132,6 @@ Third-party baselines and datasets remain under their own licenses.
   title   = {Mechanism-oriented tendency-integration operator networks for PDE foundation models},
   author  = {Lee, Jeongsu},
   year    = {2026},
-  note    = {under review}
+  note    = {submitted}
 }
 ```
