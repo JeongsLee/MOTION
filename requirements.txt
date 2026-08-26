@@ -1,0 +1,14 @@
+# Training / inference image used for all MOTION runs: tensorflow/tensorflow:2.15.0-gpu
+# (Python 3.11, CUDA 12.2). Checkpoints are named-array .npz files saved from TF 2.15;
+# load them with the same major TF version (see "Reproduction notes" in README).
+tensorflow==2.15.0
+numpy<2
+h5py
+scipy
+netCDF4
+pyyaml
+matplotlib
+# baselines / figure tooling (optional)
+# torch==2.7.1          # BCAT / PROSE-FD / scOT baselines (image pytorch/pytorch:2.7.1-cuda12.8-cudnn9-runtime)
+# hydra-core omegaconf  # Walrus baseline configs
+# pyvista               # 3D panel renders

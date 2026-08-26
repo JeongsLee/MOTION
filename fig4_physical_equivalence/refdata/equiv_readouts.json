@@ -1,0 +1,160 @@
+{
+ "joint": {
+  "rows": [
+   "SWE",
+   "Com. NS",
+   "Incom. NS",
+   "PDEarena (cond)",
+   "CFDbench",
+   "PDEarena (uncond)"
+  ],
+  "models": [
+   "MOTION",
+   "BCAT",
+   "PROSE-FD"
+  ],
+  "eps": {
+   "SWE": {
+    "MOTION": 0.05,
+    "BCAT": 200.0,
+    "PROSE-FD": 200.0
+   },
+   "Com. NS": {
+    "MOTION": 1.279,
+    "BCAT": 1.238,
+    "PROSE-FD": 0.74
+   },
+   "Incom. NS": {
+    "MOTION": 1.434,
+    "BCAT": 5.79,
+    "PROSE-FD": 5.893
+   },
+   "PDEarena (cond)": {
+    "MOTION": 7.176,
+    "BCAT": 8.013,
+    "PROSE-FD": 8.078
+   },
+   "CFDbench": {
+    "MOTION": 0.17,
+    "BCAT": 1.218,
+    "PROSE-FD": 2.099
+   },
+   "PDEarena (uncond)": {
+    "MOTION": 5.409,
+    "BCAT": 5.783,
+    "PROSE-FD": 6.746
+   }
+  },
+  "eps_illegal": {
+   "PDEarena (cond)": {
+    "MOTION": 52.685,
+    "BCAT": 47.672,
+    "PROSE-FD": 39.668
+   },
+   "PDEarena (uncond)": {
+    "MOTION": 69.949,
+    "BCAT": 44.813,
+    "PROSE-FD": 54.971
+   }
+  },
+  "gain": {
+   "SWE": {
+    "MOTION": -0.01,
+    "BCAT": "div",
+    "PROSE-FD": "div"
+   },
+   "Com. NS": {
+    "MOTION": -0.194,
+    "BCAT": -0.062,
+    "PROSE-FD": -0.028
+   },
+   "Incom. NS": {
+    "MOTION": -0.215,
+    "BCAT": -1.408,
+    "PROSE-FD": -0.899
+   },
+   "PDEarena (cond)": {
+    "MOTION": -0.343,
+    "BCAT": -0.268,
+    "PROSE-FD": -0.486
+   },
+   "CFDbench": {
+    "MOTION": -0.007,
+    "BCAT": 0.184,
+    "PROSE-FD": 0.684
+   },
+   "PDEarena (uncond)": {
+    "MOTION": -0.281,
+    "BCAT": -0.218,
+    "PROSE-FD": -0.453
+   }
+  }
+ },
+ "ivp": {
+  "rows": [
+   "NS-PwC",
+   "ACE",
+   "Poisson-Gauss"
+  ],
+  "models": [
+   "MOTION",
+   "Poseidon-B"
+  ],
+  "eps": {
+   "NS-PwC": {
+    "MOTION": 5.465,
+    "Poseidon-B": 4.566
+   },
+   "ACE": {
+    "MOTION": 0.346,
+    "Poseidon-B": 0.755
+   },
+   "Poisson-Gauss": {
+    "MOTION": 5.195,
+    "Poseidon-B": 12.03
+   }
+  },
+  "eps_rot": {
+   "NS-PwC": {
+    "MOTION": 5.51,
+    "Poseidon-B": 11.224
+   },
+   "ACE": {
+    "MOTION": 0.384,
+    "Poseidon-B": 0.862
+   },
+   "Poisson-Gauss": {
+    "MOTION": 6.062,
+    "Poseidon-B": 12.4
+   }
+  },
+  "gain": {
+   "NS-PwC": {
+    "MOTION": -1.03,
+    "Poseidon-B": -0.69
+   },
+   "ACE": {
+    "MOTION": -0.04,
+    "Poseidon-B": -0.18
+   },
+   "Poisson-Gauss": {
+    "MOTION": -1.05,
+    "Poseidon-B": -3.39
+   }
+  },
+  "err": {
+   "NS-PwC": {
+    "MOTION": 5.602,
+    "Poseidon-B": 5.29
+   },
+   "ACE": {
+    "MOTION": 0.544,
+    "Poseidon-B": 0.7
+   },
+   "Poisson-Gauss": {
+    "MOTION": 6.257,
+    "Poseidon-B": 11.17
+   }
+  }
+ }
+}

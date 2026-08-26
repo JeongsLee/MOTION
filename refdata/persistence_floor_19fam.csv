@@ -1,0 +1,23 @@
+# Persistence baseline (= MOTION accuracy at initialization: hard IC + zero-init gates),
+# val split 8 traj/family, m1b eval convention (joint rel-L2, frame-averaged, tmask-weighted).
+# Jobs: persistence-floor / persistence-floor-3d, 2026-08-06. Poisson steady: zero-IC => 100%.
+family,persistence_PHYS_pct,persistence_NORM_pct
+shallow_water,3.33,3.33
+diff_react,13.64,13.92
+com_ns,4.36,6.22
+incom_ns,6.93,6.04
+pdearena_ns,67.55,60.37
+pdearena_uncond,44.90,40.24
+CE-RP,35.38,39.59
+CE-CRP,44.89,47.34
+CE-KH,6.67,1.55
+CE-Gauss,16.70,15.37
+CE-RM,34.62,47.59
+NS-Sines,86.96,86.92
+NS-Gauss,55.70,58.19
+ACE,24.61,24.61
+Wave-Layer,154.31,154.31
+Poisson-Gauss,100.00,100.00
+pdebench3d_M0.1,9.78,16.16
+pdebench3d_M1.0,21.52,24.92
+pdebench3d_Turb,49.90,34.94

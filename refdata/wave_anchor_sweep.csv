@@ -1,0 +1,28 @@
+# Wave-Layer anchor sweep, N=64 finetuned models, median rel-L1 full-traj (%, physical, solution slot)
+# sources (VESSL job logs, 2026-07-14): MOTION official = asweep-wave job-jo0uik2io0pz (full horizon,
+#   base finetuned ckpt, no endpoint padding; padded ckpt scores 31.27 at anchor 0);
+#   Poseidon official = scot-asweep job-uxji6vo32wcf (Wave-Layer_64_x4, full horizon);
+#   MOTION repaired = asweep12-wv0pad job-3alivgycplaj (two-field IC [u,v0,c], lead<=12);
+#   Poseidon repaired = scot-wv2ic-sweep job-g362gsku448s (Wave-Layer_64_2icx4, lead<=12).
+# swept means: MOTION repaired 11.89, Poseidon repaired 12.97 (paper1 Table values reproduced).
+protocol,model,anchor,rel_l1_fulltraj
+official,MOTION,0,31.960
+official,MOTION,1,32.499
+official,MOTION,2,33.818
+official,MOTION,4,32.331
+official,MOTION,8,32.008
+official,Poseidon-B,0,16.667
+official,Poseidon-B,1,45.609
+official,Poseidon-B,2,22.063
+official,Poseidon-B,4,25.526
+official,Poseidon-B,8,34.108
+repaired,MOTION,0,11.475
+repaired,MOTION,1,11.531
+repaired,MOTION,2,11.580
+repaired,MOTION,4,11.855
+repaired,MOTION,8,13.016
+repaired,Poseidon-B,0,10.165
+repaired,Poseidon-B,1,16.913
+repaired,Poseidon-B,2,11.072
+repaired,Poseidon-B,4,11.961
+repaired,Poseidon-B,8,14.744

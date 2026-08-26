@@ -1,0 +1,1 @@
+bash -lc 'CODE_VOL=/eu/code_mirror FT_TASK=Poisson-Gauss FT_NSHOT=64 FT_UV_ONLY=0 FT_IC_FRAC=0 FT_LR=5e-5 FT_STEPS=12800 FT_LOSS_CAP=100 FT_TAG=_162m800000x4 FT_INIT_PATH=/eu/results/poseidon_pretrain_ivp_combo_158m_scratch/ckpt_800000.npz bash /eu/code_mirror/code/runners/_run_ivp_eu.sh motion_tf.train.configs.poseidon_finetune_combo_158m'

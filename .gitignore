@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.log
+texput.*
+.DS_Store
+# trained checkpoints live on Zenodo (see WEIGHTS.md)
+weights/
+*.h5
+*.hdf5
+*.npy
