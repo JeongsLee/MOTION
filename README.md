@@ -54,7 +54,7 @@ No datasets are redistributed. The nineteen families are drawn from public bench
 | [PDEBench](https://github.com/pdebench/PDEBench) | shallow water, diffusion–reaction, 2D/3D compressible Navier–Stokes, incompressible NS |
 | [PDEArena](https://github.com/pdearena/pdearena) | Navier–Stokes 2D (conditioned / unconditioned) |
 | [PDEgym / Poseidon](https://github.com/camlab-ethz/poseidon) | NS-PwC, ACE, Wave-Layer, Poisson-Gauss, CE-RM and the IVP pretraining corpus |
-| [CFDBench](https://github.com/luo-yining/CFDBench) | loader retained (`data/adapters.py`); not part of the 19-family corpus |
+| [CFDBench](https://github.com/luo-yining/CFDBench) | channel flow — used in the 6-family joint benchmark (Fig. 2) and the equivalence tests (Fig. 4); not in the 19-family pretraining corpus |
 
 Loaders and one-off cache builders live in `common/motion_tf/data/` (`prep_multi.py`,
 `download_prose.py`, `poseidon.py`) and `fig1_pretrain_mechanism/foundationv2/data/`.
