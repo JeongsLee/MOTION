@@ -54,12 +54,13 @@ No datasets are redistributed. The nineteen families are drawn from public bench
 | [PDEBench](https://github.com/pdebench/PDEBench) | shallow water, diffusion–reaction, 2D/3D compressible Navier–Stokes, incompressible NS |
 | [PDEArena](https://github.com/pdearena/pdearena) | Navier–Stokes 2D (conditioned / unconditioned) |
 | [PDEgym / Poseidon](https://github.com/camlab-ethz/poseidon) | NS-PwC, ACE, Wave-Layer, Poisson-Gauss, CE-RM and the IVP pretraining corpus |
-| [CFDBench](https://github.com/luo-yining/CFDBench) | geometry-conditioned flows (evaluation only) |
+| [CFDBench](https://github.com/luo-yining/CFDBench) | loader retained (`data/adapters.py`); not part of the 19-family corpus |
 
 Loaders and one-off cache builders live in `common/motion_tf/data/` (`prep_multi.py`,
 `download_prose.py`, `poseidon.py`) and `fig1_pretrain_mechanism/foundationv2/data/`.
-They expect the raw HDF5/NetCDF files at the paths given by the `PREBUILT_DIR` /
-`DATA_ROOT` environment variables; see the docstrings at the top of each loader.
+They expect the raw HDF5/NetCDF files and prebuilt caches at the paths given by the
+`PREBUILT_DIR`, `PROSE_DATA_DIR` and `CORPUS_ROOT` environment variables; see the
+docstrings at the top of each loader.
 
 ## Entry points
 
@@ -110,8 +111,8 @@ python -m v3.train --families motion --steps 160000 --batch 4 --batch3d 1 \
 
 1. **Numeric mode is part of the learned function.** Score each checkpoint in the mode it
    was trained in (bf16); e.g. Poisson gives 6.26% in bf16 but 13.92% in f32.
-2. `fig1_ens3d_v3.py` defaults to the MOTION-S architecture; MOTION needs
-   `ARCH_D=896 ARCH_DEPTH=12 ARCH_DW=48`.
+2. The 3D ensemble-inference scripts (`infer3d/infer3d_graph*.py`) default to the MOTION-S
+   architecture; MOTION needs `ARCH_D=896 ARCH_DEPTH=12 ARCH_DW=48`.
 3. The MOTION forward pass needs a GPU; 128²-native boxes run out of memory in eager
    mode — use graph mode (`tf.function`) as the scripts do.
 4. Checkpoints are TF 2.15 named-array `.npz` files loaded positionally; use the same TF
