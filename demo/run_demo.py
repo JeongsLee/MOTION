@@ -164,11 +164,13 @@ def main():
         gate.assign(saved)
         print(f"{'w/o ' + m:22s} {float(np.abs(saved).mean()):9.5f} {err:9.2f} {err - base:+9.2f}")
 
-    print("\nThe two metadata-closed heads leave the prediction bit-identical (change 0.00): the")
-    print("gate is the head's only output path, which is what makes the knockout in Fig. 1c a")
-    print("clean intervention. The two open heads do move the prediction. The SIGN and SIZE of")
-    print("that move is a property of a converged model, not of a 2-minute demo — the paper's")
-    print("knockout damages come from the 19-family checkpoints in WEIGHTS.md.")
+    print("\nwave and reaction keep a gate of exactly zero: this family's metadata never opens")
+    print("them, and the gate is a head's only output path, so removing them provably changes")
+    print("nothing. That is the grey cells of Fig. 1c, and the reason the knockout is a clean")
+    print("intervention. advection and diffusion carry nonzero gates and do feed the prediction,")
+    print("but whether removing them helps or hurts the aggregate error after a two-minute fit")
+    print("is not meaningful: the knockout damages in the paper come from the converged")
+    print("19-family checkpoints in WEIGHTS.md.")
     print("DEMO OK")
 
 
