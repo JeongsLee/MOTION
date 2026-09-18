@@ -72,7 +72,7 @@ def main():
         ex = make_example_ar(s, T_IN, K_FUT, K_RELAX, Q, ENC_N, rng, box_dims=bd)
         b = stack_batch([ex, ex] if not ex["dense2d"] else [ex])
         keys = ("coords_node", "x_win", "fmask", "geom_node", "y_node", "ic_q",
-                "coords_q", "geom_q", "y_q", "tstep_mask", "cmask", "op_multihot",
+                "coords_q", "geom_q", "y_q", "tstep_mask", "cmask", "fbmask", "op_multihot",
                 "cond", "fam_id", "sdf_box")
         ts = tuple(tf.constant(b[k]) for k in keys)
         gd = tuple(b.get("dims", ())) or None

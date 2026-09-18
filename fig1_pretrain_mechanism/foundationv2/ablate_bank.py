@@ -27,7 +27,8 @@ from v3.train import rollout_loss                        # noqa: E402
 
 N_EVAL = int(os.environ.get("ABL_N", "8"))
 KEYS = ("coords_node", "x_win", "fmask", "geom_node", "y_node", "ic_q", "coords_q",
-        "geom_q", "y_q", "tstep_mask", "cmask", "op_multihot", "cond", "fam_id", "sdf_box")
+        "geom_q", "y_q", "tstep_mask", "cmask", "fbmask", "op_multihot", "cond", "fam_id",
+        "sdf_box")
 
 
 def evaluate(model, fams):

@@ -1,14 +1,21 @@
 # Training / inference image used for all MOTION runs: tensorflow/tensorflow:2.15.0-gpu
 # (Python 3.11, CUDA 12.2). Checkpoints are named-array .npz files saved from TF 2.15;
 # load them with the same major TF version (see "Reproduction notes" in README).
+#
+# Versions below are the pinned set the released code is tested against; the image ships
+# numpy 1.26.2 and h5py 3.10.0, which the pins resolve to 1.26.4 / 3.10.0.
 tensorflow==2.15.0
-numpy<2
-h5py
-scipy
-netCDF4
-pyyaml
-matplotlib
-# baselines / figure tooling (optional)
-# torch==2.7.1          # BCAT / PROSE-FD / scOT baselines (image pytorch/pytorch:2.7.1-cuda12.8-cudnn9-runtime)
-# hydra-core omegaconf  # Walrus baseline configs
-# pyvista               # 3D panel renders
+numpy==1.26.4
+h5py==3.10.0
+scipy==1.17.1
+netCDF4==1.7.4
+pyyaml==6.0.1
+matplotlib==3.8.0        # the version every manuscript figure was rendered with
+scikit-image==0.26.0     # marching_cubes for the 3D isosurface panels of Fig. 1b
+
+# baselines / figure tooling (optional, not installed by default)
+# Each third-party baseline runs in the environment pinned by its own repository:
+#   BCAT            : pytorch/pytorch:2.7.1-cuda12.8-cudnn9-runtime
+#   PROSE-FD, scOT  : pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
+# hydra-core omegaconf   # scOT / Poseidon baseline configs
+# pyvista                # optional 3D renders
