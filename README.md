@@ -103,13 +103,15 @@ w/o reaction             0.00000      4.28     +0.00
 DEMO OK
 ```
 
-What to read from it: the model beats the persistence baseline (10.22% -> 4.28%) after a
-two-minute fit, and the knockout handle behaves as the paper's analysis requires - `wave`
-and `reaction` are closed by this family's equation metadata, their gates stay at zero
-through training, and zeroing them leaves the prediction bit-identical (the grey cells of
-Fig. 1c), while the two open heads move it. The *sign and size* of a knockout damage is a
-property of a converged model: the paper's numbers come from the 19-family checkpoints in
-[`WEIGHTS.md`](WEIGHTS.md), not from this demo.
+What to read from it: the model beats the persistence baseline (10.22% -> ~4.5%) after a
+two-minute fit, and the knockout handle behaves as the paper's analysis requires. `wave`
+and `reaction` are closed by this family's equation metadata, so their gates stay at
+exactly zero through training and zeroing them is provably a no-op - the grey cells of
+Fig. 1c, and the reason a gate knockout is a clean intervention. `advection` and
+`diffusion` carry nonzero gates and do feed the prediction, but the *sign and size* of a
+knockout damage is a property of a converged model, not of a two-minute fit: at this scale
+either sign can appear, and a run-to-run swing of a few tenths of a percent is normal. The
+paper's knockout damages come from the 19-family checkpoints in [`WEIGHTS.md`](WEIGHTS.md).
 
 Expected run time: **~110 s** total at the default 300 steps (about 50 s of that is the
 TensorFlow import, model build and first graph trace), **~210 s** at 600 steps.
