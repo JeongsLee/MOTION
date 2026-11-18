@@ -55,7 +55,7 @@ gradient, `wave` wave Laplacian, `reaction` / `reaction_nl` linear / nonlinear r
 
 | Result | Computation | Job or launcher | Figure / table script |
 |---|---|---|---|
-| Pretraining, MOTION-S and MOTION-L | `v3/train.py` | settings in the top-level README (the original launchers were not kept); `jobs/run_staged.sh` replays the second stage | `figures/render_s1_history.py` |
+| Pretraining, MOTION-S and MOTION-L | `v3/train.py` | `jobs/pretrain_motion_s_stage1.sh`, `pretrain_motion_s_stage2.sh`, `pretrain_motion_l_stage1.sh`, `pretrain_motion_l_stage2.sh` (the original job commands); `jobs/run_staged.sh` replays the MOTION-S second stage with the present code | `figures/render_s1_history.py` |
 | Pretraining, MOTION-NS | `v3/train.py` | `jobs/run_nss.sh` | `figures/render_figS_ns_curves.py` |
 | Pretraining, MOTION-IVP (three stages) | `v3/train.py`, `pad_tin.py` | `jobs/run_ivps_ss.sh`, `jobs/run_ivps_s3w.sh` | — |
 | Second-stage loss control | `v3/train.py`, `eval_stats.py` | `jobs/run_staged.sh`, `jobs/run_staged_eval.sh` | `figures/fig_staged_curves.py` |
@@ -119,8 +119,8 @@ Poseidon-T and Poseidon-B: `baselines/poseidon_ft_data/run_ft15_scot.sh` (`TASK`
 
 ## 5. What the scripts do not cover
 
-- The launchers of the original MOTION-S and MOTION-L pretraining runs were not kept; the settings are in the
-  top-level README and `jobs/run_staged.sh` replays the second stage with the present code.
+- The MOTION-S and MOTION-L pretraining launchers are the original job commands of August 2026; they ran the code
+  of that date. `jobs/run_staged.sh` replays the MOTION-S second stage with the present code.
 - Tables marked "assembled by hand" were typed from the outputs of the listed scripts.
 - Figure scripts read the outputs of the listed runs from `results/` (or `$MOTION_RESULTS`) and, for the latent
   commands, from `$MOTION_LOCAL`; the values behind every main-text figure are provided as Source Data with the

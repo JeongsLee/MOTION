@@ -60,7 +60,7 @@ scikit-image 0.26.0. No other operating systems have been tested.
 |---|---|---|
 | `demo/run_demo.py` | any x86-64 CPU, ~2 GB RAM | no GPU needed |
 | inference / knockout from a released checkpoint | 1 GPU, >= 24 GB | 128^2-native boxes exhaust memory in eager mode; the scripts use graph mode |
-| 19-family pretraining | 4x NVIDIA H100 80 GB | about 450 H100-hours for MOTION-L (156.9M) and about 154 for MOTION-S (20.7M) |
+| 19-family pretraining | 4x NVIDIA H100 80 GB | about 570 H100-hours for MOTION-L (156.9M) and about 154 for MOTION-S (20.7M) |
 
 Third-party baselines (BCAT, PROSE-FD, scOT/Poseidon) are not vendored; each runs in the
 environment pinned by its own repository (PyTorch 2.4.0-2.7.1, see `requirements.txt`).
@@ -163,13 +163,13 @@ The commands below are run from `motion_tf/`. The effective batch size is `--bat
 | Temporal panels | 16 | 16 | 16 | 32 | 16 | `--n_p` |
 | Latent grid | per family | per family | 64² | 64² | per family | `--box_table 1`, or `--box_table 0 --dims2 64` |
 | Families | 19 | 19 | 6 | 6 | 19 | `--families` |
-| GPUs × batch (effective) | 2 × 4 (8), then 1 × 4 | 4 × 2 (8), then 1 × 4 | 2 × 4 (8) | 2 × 8 (16) | 1 × 8 (8) | `--batch` |
+| GPUs × batch (effective) | 2 × 4 (8), then 1 × 4 | 4 × 2 (8) in both stages | 2 × 4 (8) | 2 × 8 (16) | 1 × 8 (8) | `--batch` |
 | Updates (run length) | 134,900 + 25,150 | 106,250 + 40,000 | 160,000 | 80,000 + 100,000 + 50,000 | 20,000 | `--steps` |
-| Reported checkpoint | 110,000 + 20,000 | best of stage 2 | 160,000 | best of stage 3 | 20,000 | — |
-| Learning rate | 3e-4, then 5e-5 | 3e-4, then 2e-5 | 1e-4, cosine to 5% | 1e-4, 5e-5, 5e-5, cosine to 5% | 3e-4 | `--lr`, `--lr_sched cosine --lr_alpha 0.05` |
+| Reported checkpoint | 110,000 + 20,000 | 106,250 + 36,000 | 160,000 | best of stage 3 | 20,000 | — |
+| Learning rate | 3e-4, then 5e-5 | 3e-4, then 5e-5 | 1e-4, cosine to 5% | 1e-4, 5e-5, 5e-5, cosine to 5% | 3e-4 | `--lr`, `--lr_sched cosine --lr_alpha 0.05` |
 | Warm-up updates | 2,000, then 1,000 | 2,000, then 1,000 | 4,000 | 2,000 | 2,000 | `--warmup` |
 | Second-stage loss | fluctuation-normalized | fluctuation-normalized | — | — | — | `--fluct_loss 1` |
-| Precision | float32 | float32, then bf16 | bf16 | bf16 | bf16 | `--bf16 1` |
+| Precision | float32 | float32 | bf16 | bf16 | bf16 | `--bf16 1` |
 | Observed / forecast frames | 10 / 10 | 10 / 10 | 10 / 10 | 1–10 / 20 | 10 / 10 | `--t_in`, `--k_fut` |
 | Encoder / collocation points | 8,192 / 2,048 | same | same | same | same | `--enc_n`, `--n_colloc` |
 | Evaluation | test split, up to 128 trajectories per family, batch 8 | same | 100 per family | official test split | 128 per family | `eval_stats.py --split test --n … --batch 8` |

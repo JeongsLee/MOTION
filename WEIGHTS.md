@@ -7,7 +7,7 @@ Extract each archive into `checkpoints/` at the repository root.
 | Model | File | Parameters | Pretraining | Test error | Used in |
 |---|---|---|---|---|---|
 | MOTION-S | `motion_s_ckpt_best.npz` | 20.7M | 19 families, two stages (110,000 + 20,000 updates) | 8.25% (19-family class average, relative L2) | Figs 1–3 |
-| MOTION-L | `motion_l_ckpt_best.npz` | 156.9M | 19 families, two stages (106,250 + 40,000 updates) | 6.99% (19-family class average) | Supplementary Notes 1, 4 |
+| MOTION-L | `motion_l_ckpt_best.npz` | 156.9M | 19 families, two stages (106,250 + 36,000 updates) | 6.99% (19-family class average) | Supplementary Notes 1, 4 |
 | MOTION-NS | `motion_ns_ckpt_160000.npz` | 21.8M | 6 Navier–Stokes-type families, 160,000 updates | 2.84% (6-family mean) | Fig. 4a,d |
 | MOTION-IVP | `motion_ivp_ckpt_best.npz` + `motion_ivp_global_norm.json` | 25.6M | 6 Poseidon pretraining families, three stages | starting point of the fifteen downstream tasks | Fig. 4b,d |
 
@@ -43,5 +43,5 @@ from motion_torch import PRESETS, build_model
 model = build_model(PRESETS["motion_ns"], "checkpoints/motion_ns_ckpt_160000.npz", device="cuda")
 ```
 
-Score each checkpoint in the precision it was trained in (MOTION-S float32; MOTION-L, MOTION-NS and MOTION-IVP
+Score each checkpoint in the precision it was trained in (MOTION-S and MOTION-L float32; MOTION-NS and MOTION-IVP
 bf16 mixed precision), see the reproduction notes in `README.md`.
