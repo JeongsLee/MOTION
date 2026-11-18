@@ -23,7 +23,7 @@ import time
 import numpy as np
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_FV2 = os.path.join(os.path.dirname(_HERE), "fig1_pretrain_mechanism", "foundationv2")
+_FV2 = os.path.join(os.path.dirname(_HERE), "motion_tf")
 sys.path.insert(0, _FV2)
 
 os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")

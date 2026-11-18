@@ -3,8 +3,7 @@ __pycache__/
 *.log
 texput.*
 .DS_Store
-# trained checkpoints live on Zenodo (see WEIGHTS.md)
+checkpoints/
 weights/
-*.h5
-*.hdf5
-*.npy
+*.npz
+!demo/data/*.npz
