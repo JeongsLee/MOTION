@@ -1,27 +1,36 @@
 # MOTION pretrained weights
 
-Weights are hosted on Zenodo (CC-BY-4.0): **DOI: [10.5281/zenodo.22104636](https://doi.org/10.5281/zenodo.22104636)**
-(concept DOI; the version for the revised manuscript adds MOTION-NS and MOTION-IVP).
-Extract each archive into `checkpoints/` at the repository root.
+Weights are hosted on Zenodo (CC-BY-4.0), version 2.0.0:
+**DOI: [10.5281/zenodo.24334472](https://doi.org/10.5281/zenodo.24334472)**
+(all versions: [10.5281/zenodo.22104635](https://doi.org/10.5281/zenodo.22104635)).
+Extract the two archives and place all checkpoints in `checkpoints/` at the repository root.
 
-| Model | File | Parameters | Pretraining | Test error | Used in |
-|---|---|---|---|---|---|
-| MOTION-S | `motion_s_ckpt_best.npz` | 20.7M | 19 families, two stages (110,000 + 20,000 updates) | 8.25% (19-family class average, relative L2) | Figs 1–3 |
-| MOTION-L | `motion_l_ckpt_best.npz` | 156.9M | 19 families, two stages (106,250 + 36,000 updates) | 6.99% (19-family class average) | Supplementary Notes 1, 4 |
-| MOTION-NS | `motion_ns_ckpt_160000.npz` | 21.8M | 6 Navier–Stokes-type families, 160,000 updates | 2.84% (6-family mean) | Fig. 4a,d |
-| MOTION-IVP | `motion_ivp_ckpt_best.npz` + `motion_ivp_global_norm.json` | 25.6M | 6 Poseidon pretraining families, three stages | starting point of the fifteen downstream tasks | Fig. 4b,d |
+| Model | TensorFlow checkpoint | PyTorch file | Parameters | Pretraining | Test error | Used in |
+|---|---|---|---|---|---|---|
+| MOTION-S | `MOTION_weights_motion_s_20.7m.tar` (contains `motion_s_20.7m/ckpt_best.npz`) | `motion_s.pt` | 20.7M | 19 families, two stages (110,000 + 20,000 updates) | 8.25% (19-family class average, relative L2) | Figs 1–3 |
+| MOTION-L | `MOTION_weights_motion_156.9m.tar` (contains `motion_156.9m/ckpt_best.npz`) | `motion_l.pt` | 156.9M | 19 families, two stages (106,250 + 36,000 updates) | 6.99% (19-family class average) | Supplementary Notes 1, 4 |
+| MOTION-NS | `motion_ns_ckpt_160000.npz` | `motion_ns.pt` | 21.8M | 6 Navier–Stokes-type families, 160,000 updates | 2.84% (6-family mean) | Fig. 4a,d |
+| MOTION-IVP | `motion_ivp_ckpt_best.npz` + `motion_ivp_global_norm.json` | `motion_ivp.pt` | 25.6M | 6 Poseidon pretraining families, three stages | starting point of the fifteen downstream tasks | Fig. 4b,d |
 
-MOTION-S and MOTION-L are the checkpoints released with the submitted version (there named
-`MOTION_weights_motion_s_20.7m` and `MOTION_weights_motion_156.9m`); the files are unchanged.
+The two archives of MOTION-S and MOTION-L are unchanged from version 1.0.0 (the submitted manuscript). The `.pt`
+files hold the same weights with their configuration, written by `python -m motion_torch.convert`. The two models of
+version 1.0.0 that the revised manuscript no longer uses remain available in that version
+([10.5281/zenodo.22104636](https://doi.org/10.5281/zenodo.22104636)).
 
 SHA-256:
 
 ```
-c78f2e7929e02405b4be8f8f8fffbaed6921267044d8e9c65a2f802c908a30fe  motion_s_ckpt_best.npz
-6fc2701e647b3fe2fea1db6818158406e64e5420ffea643ac4f14c16bdbbef99  motion_l_ckpt_best.npz
+b9c733042d60b795a17aad2adf4463aa8f37f5e5d728f37f637c10fed63d87fa  MOTION_weights_motion_s_20.7m.tar
+5c58d7130db81ffa41d546f2580a1b286085506eedc9bcae193f98036c41f4b1  MOTION_weights_motion_156.9m.tar
+c78f2e7929e02405b4be8f8f8fffbaed6921267044d8e9c65a2f802c908a30fe  motion_s_20.7m/ckpt_best.npz
+6fc2701e647b3fe2fea1db6818158406e64e5420ffea643ac4f14c16bdbbef99  motion_156.9m/ckpt_best.npz
 96ec3134829ae685709ac645f67ab1f94f2d184cf7a6eb42b9587d7b7a2a0734  motion_ns_ckpt_160000.npz
 3a24b27b2f25fedd0d1f0c6e02bf528f8f96594823b4d3b3e130263faf43dd3d  motion_ivp_ckpt_best.npz
 130be1be3344f3dca80111310f17efdf1dad7f6661f5ce54f097e2e0718fac07  motion_ivp_global_norm.json
+740098378678209fd758828162655abc4888474c8ccca5c9e9ddd7a2b5044daf  motion_s.pt
+6f35afa072b097b54905d6caaf6c1be46906419bd8f58b06e4bdc9cb4835bd59  motion_l.pt
+9ecb28aec4cdfadb8183686a6f152b258fbb830e9d7e2a39c0175d8ce9664aca  motion_ns.pt
+e24dd21a42684cfb10da54e43a5f62147f4d3a1a1b2e8323427fd4ddd2bbcc36  motion_ivp.pt
 ```
 
 ## Settings needed to load each checkpoint
@@ -41,6 +50,12 @@ In PyTorch the same settings are the presets `motion_s`, `motion`, `motion_ns` a
 ```python
 from motion_torch import PRESETS, build_model
 model = build_model(PRESETS["motion_ns"], "checkpoints/motion_ns_ckpt_160000.npz", device="cuda")
+```
+
+or, from a converted file, which carries its configuration:
+
+```python
+model = build_model(None, "checkpoints/motion_ns.pt", device="cuda")
 ```
 
 Score each checkpoint in the precision it was trained in (MOTION-S and MOTION-L float32; MOTION-NS and MOTION-IVP
