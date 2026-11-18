@@ -1,6 +1,6 @@
 """TensorFlow REFERENCE runner for the parity tests (run with the TF 2.15 interpreter; never imported by the port).
 
-  ~/anaconda3/envs/tf215/bin/python tests/tf_reference.py CASES.pkl OUT.pkl
+  python tests/tf_reference.py CASES.pkl OUT.pkl
 
 CASES.pkl (written by tests/parity_common.py in the torch env): {"cfg": MotionConfig dict, "ckpt": npz path,
 "fv2": path of the motion_tf reference code, "cases": [{name, samples, seeds, t_in, k_fut, k_relax, n_colloc, enc_n,

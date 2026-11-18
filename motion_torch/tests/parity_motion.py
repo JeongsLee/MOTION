@@ -1,6 +1,6 @@
 """TF <-> PyTorch parity for MOTION (paper m2s2, 156.9M, d 896, depth 12, d_w 48; same switches as MOTION-S).
 
-  ~/anaconda3/envs/torch/bin/python tests/parity_motion.py [--ckpt PATH] [--real 4]
+  python tests/parity_motion.py [--ckpt PATH] [--real 4]
 Synthetic 2-D AR (incom_ns, CE-RP with transport), 2-D single-shot (ACE), 3-D AR (pdebench3d M0.1), steady
 (Poisson-Gauss), plus held-out real units (incom_ns, com_ns, shallow_water, pdearena_ns) from LOCAL_UNITS."""
 import argparse

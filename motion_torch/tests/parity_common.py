@@ -30,7 +30,7 @@ from motion_torch.data.example import (box_dims_for, load_local_units, make_exam
 from motion_torch.inference import predict, to_torch, trajectory_error  # noqa: E402
 
 FV2 = os.environ.get("MOTION_FV2", os.path.join(os.path.dirname(PKG), "motion_tf"))
-TF_PY = os.environ.get("TF_PYTHON", os.path.expanduser("~/anaconda3/envs/tf215/bin/python"))
+TF_PY = os.environ.get("TF_PYTHON", os.path.expanduser("python"))
 LOCAL_UNITS = os.environ.get("LOCAL_UNITS", os.path.expanduser("checkpoints/units_nss_mtf.pkl"))
 CACHE = os.environ.get("PARITY_CACHE", os.path.expanduser("~/.cache/motion_torch_parity"))
 

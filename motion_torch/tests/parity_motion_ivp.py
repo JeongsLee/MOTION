@@ -4,7 +4,7 @@ score_ivp_l1.py): t_in 10 window with one observed frame (MOTION_TI_FIXED=1), n_
 single-shot with the blend transport carrier, NS-Sines in receding-horizon hop-1 mode; synthetic samples of
 Poseidon pretraining families (statistics for the global normalisation from the synthetic samples themselves).
 
-  ~/anaconda3/envs/torch2/bin/python tests/parity_motion_ivp.py [--ckpt PATH]
+  python tests/parity_motion_ivp.py [--ckpt PATH]
 """
 import argparse
 import os

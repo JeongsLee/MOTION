@@ -7,3 +7,8 @@ checkpoints/
 weights/
 *.npz
 !demo/data/*.npz
+figures/out/*
+!figures/out/.gitkeep
+!figures/refdata/*.npz
+results/
+motion_local/

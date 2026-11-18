@@ -1,7 +1,7 @@
 """TF <-> PyTorch parity for MOTION-NS (zsc, 21.8M; MOTION_WARP_LIVE=1 MOTION_BANK_NGENERIC=8
 MOTION_BANK_GENERIC_MERGE=1 MOTION_BOX_UNIFORM=64 MOTION_INPUT_ZSCORE=1 MOTION_COND_STATS=1).
 
-  ~/anaconda3/envs/torch/bin/python tests/parity_motion_ns.py [--ckpt PATH] [--real 8] [--sswarp 1]
+  python tests/parity_motion_ns.py [--ckpt PATH] [--real 8] [--sswarp 1]
 Synthetic cases (all code paths, 64^2 / 64^3-box), held-out real units of the 6 joint-benchmark families from
 LOCAL_UNITS (MOTION_SPLIT_MTF test split), and with --sswarp 1 a second configuration that exercises the
 MOTION-IVP-S code paths with the same weights: MOTION_SS_WARP=blend single-shot (MOTION_FORCE_MODE=ss) and the

@@ -5,7 +5,10 @@ paths used by the released checkpoints. It loads the TF weights-only `.npz` chec
 single-shot and receding-horizon inference, and fine-tunes with the TF training objective. **Pretraining stays in
 TensorFlow.** The package does not import TensorFlow (`tests/test_torch_smoke.py` asserts it).
 
-Tested with torch 2.0.1 (CUDA 11.7), numpy 1.26, Python 3.10. Parity against TF 2.15.
+Tested with torch 2.0.1 (CUDA 11.7) and 2.5.1, numpy 1.26, Python 3.10. Parity against TF 2.15 for MOTION-S,
+MOTION-L, MOTION-NS and MOTION-IVP (`tests/parity_*.py`). `fast.py` provides an accelerated execution path with the
+same parameters (fused axial convolutions and attention projections, spectral filter as discrete Fourier transform
+matrix products, `torch.compile`); `bench_ivp.py` and `bench_fast.py` time it against the reference path.
 
 ## Layout
 
@@ -72,10 +75,10 @@ Parity tests (need the TF 2.15 env for the reference side; it is called as a sub
 `~/.cache/motion_torch_parity`, summaries written to `tests/parity_<tag>.json`):
 
 ```bash
-~/anaconda3/envs/torch/bin/python tests/parity_motion_s.py        # MOTION-S, synthetic + 32 real units
-~/anaconda3/envs/torch/bin/python tests/parity_motion_ns.py       # MOTION-NS (+ IVP-S code paths with --sswarp 1)
-~/anaconda3/envs/torch/bin/python tests/parity_motion.py          # MOTION (156.9M)
-~/anaconda3/envs/torch/bin/python tests/test_torch_smoke.py       # port only, no TF, no checkpoint
+python tests/parity_motion_s.py        # MOTION-S, synthetic + 32 real units
+python tests/parity_motion_ns.py       # MOTION-NS (+ IVP-S code paths with --sswarp 1)
+python tests/parity_motion.py          # MOTION (156.9M)
+python tests/test_torch_smoke.py       # port only, no TF, no checkpoint
 ```
 Environment overrides: `TF_PYTHON`, `MOTION_FV2` (reference tree), `LOCAL_UNITS`, `PARITY_CACHE`.
 

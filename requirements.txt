@@ -12,10 +12,14 @@ netCDF4==1.7.4
 pyyaml==6.0.1
 matplotlib==3.8.0        # the version every manuscript figure was rendered with
 scikit-image==0.26.0     # marching_cubes for the 3D isosurface panels of Fig. 1b
+pandas                   # table builders in analysis/
+sympy                    # symbolic checks; required by the packages of the submitted version (tag v1.0-submitted)
+pymupdf                  # figures/fig_latent_compose_relayout.py
 
 # baselines / figure tooling (optional, not installed by default)
 # Each third-party baseline runs in the environment pinned by its own repository:
 #   BCAT            : pytorch/pytorch:2.7.1-cuda12.8-cudnn9-runtime
 #   PROSE-FD, scOT  : pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
+# torch>=2.0             # motion_torch/ (PyTorch implementation; accelerated path timed with 2.5.1)
 # hydra-core omegaconf   # scOT / Poseidon baseline configs
 # pyvista                # optional 3D renders

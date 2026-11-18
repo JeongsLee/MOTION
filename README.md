@@ -1,31 +1,49 @@
 # MOTION — Mechanism-Oriented Tendency-Integration Operator Networks
 
-Code, trained weights and figure data for
+Code, trained weights and figure scripts for
 
-> J. Lee, *Mechanism-oriented tendency-integration operator networks for PDE foundation models* (2026, submitted).
+> J. Lee, *Mechanism-oriented tendency-integration operator networks for PDE foundation models* (2026, under review).
 
-MOTION is a PDE foundation model whose per-step tendency is a gated sum of explicit
-physical-mechanism heads (transport, diffusion, pressure/density coupling, reaction,
-wave, curvature, …) plus an ungated state head. Because each mechanism has a fixed
-computational role, the learned dynamics can be interrogated by mechanism knockout and
-by physical-equivalence tests. A single set of weights covers nineteen equation
-families spanning nine governing systems in two and three dimensions.
+MOTION is a PDE foundation model whose latent rate of change is a gated sum of mechanism heads, each applying a
+prescribed differential, spectral or pointwise operator to the latent field, plus an ungated state head. The rate is
+integrated in closed form and decoded so that the initial condition is satisfied exactly. Because each head has a
+fixed computational role, the learned dynamics can be examined by head knockout, by commands applied to the operator
+inputs, and by tests under physically equivalent transformations.
+
+This branch holds the code of the **revised** manuscript. The state of the repository for the submitted version,
+including the second architecture that the revised paper no longer uses, is kept under the tag
+[`v1.0-submitted`](https://github.com/JeongsLee/MOTION/tree/v1.0-submitted).
 
 ## Layout
 
 ```
-fig1_pretrain_mechanism/   19-family 2D+3D pretraining, mechanism knockout / contribution analysis (paper Fig. 1)
-fig2_joint_benchmark/      6-family joint benchmark against BCAT / PROSE-FD at matched budget (paper Fig. 2)
-fig3_ivp_transfer/         IVP-mode pretraining on the Poseidon corpus + few-shot transfer (paper Fig. 3)
-fig4_physical_equivalence/ physical-equivalence (ε_equiv) tests and equivalence-ensemble averaging (paper Fig. 4)
-common/motion_tf/          shared TensorFlow package used by Fig. 2 and Fig. 3
-common/figscripts/         manuscript panel renderers and their panel data
-refdata/                   benchmark curves and Fig. 1 panel inputs
-WEIGHTS.md                 checkpoint table and Zenodo DOI
+motion_tf/      TensorFlow implementation: model (core/, v3/), data (data/), training (python -m v3.train),
+                evaluation (eval_stats.py, eval_contrib.py, eval_equiv.py, score_ivp_l1.py) and the
+                latent-command experiments (latent_*.py)
+motion_torch/   PyTorch implementation for loading the released weights, inference and fine-tuning, with a weight
+                converter, parity tests against TensorFlow and an accelerated execution path (see its README)
+experiments/    job scripts of every experiment as they were run, and the table that maps each result of the
+                paper to its script and settings (experiments/README.md)
+analysis/       metrics (D, AUC, same-form separation), statistics (bootstrap, paired tests, regime tests),
+                equivalence statistics, the pseudo-spectral reference solvers and table builders
+baselines/      BCAT / PROSE-FD (retraining, released weights, physical input features, symmetry evaluation)
+                and Poseidon (data preparation, fine-tuning, scoring)
+figures/        scripts of the main and supplementary figures, with their reference data
+demo/           CPU demo of the knockout protocol (no data download, no checkpoint)
+WEIGHTS.md      released checkpoints, their settings and checksums
 ```
 
-Figure-script file names run one number ahead of the manuscript (`render_fig3*` → paper
-Fig. 2/3, `render_fig4*` → paper Fig. 4).
+## Models
+
+| Model | Parameters | Pretraining data | Metadata | Transport map / generic tendency | Backbone | Used in |
+|---|---|---|---|---|---|---|
+| MOTION-S | 20.7M | 19 families | yes | inactive / no | width 384, depth 8 | Figs 1–3 |
+| MOTION-L | 156.9M | 19 families | yes | inactive / no | width 896, depth 12 | Supplementary Notes 1, 4 |
+| MOTION-NS | 21.8M | 6 Navier–Stokes-type families | yes | active / yes | width 384, depth 8, 64² latent grid | Fig. 4a,d |
+| MOTION-IVP | 25.6M | 6 Poseidon pretraining families | no | active / yes | width 384, depth 8, 64² latent grid | Fig. 4b,d |
+
+The matched-budget ablation variants of Fig. 3 are MOTION-S trained for 20,000 updates with one component
+changed; each variant is selected by an environment switch listed in `experiments/README.md`.
 
 ## System requirements
 
@@ -42,27 +60,26 @@ scikit-image 0.26.0. No other operating systems have been tested.
 |---|---|---|
 | `demo/run_demo.py` | any x86-64 CPU, ~2 GB RAM | no GPU needed |
 | inference / knockout from a released checkpoint | 1 GPU, >= 24 GB | 128^2-native boxes exhaust memory in eager mode; the scripts use graph mode |
-| 19-family pretraining | 4x NVIDIA H100 80 GB | ~570 H100-hours for MOTION (156.9M), ~155 for MOTION-S (20.7M) |
+| 19-family pretraining | 4x NVIDIA H100 80 GB | about 450 H100-hours for MOTION-L (156.9M) and about 154 for MOTION-S (20.7M) |
 
 Third-party baselines (BCAT, PROSE-FD, scOT/Poseidon) are not vendored; each runs in the
 environment pinned by its own repository (PyTorch 2.4.0-2.7.1, see `requirements.txt`).
-The runner scripts under `*/jobscripts/` record the exact images, commands and settings
+The runner scripts under `baselines/` record the exact images, commands and settings
 used to retrain or rescore them under the matched protocol.
+
+The PyTorch implementation needs PyTorch 2.0 or later (the accelerated path was timed with PyTorch 2.5.1) and does
+not import TensorFlow.
 
 ## Installation
 
 ```bash
 git clone https://github.com/JeongsLee/MOTION.git && cd MOTION
 pip install -r requirements.txt
-export PYTHONPATH=$PWD/common:$PWD/fig1_pretrain_mechanism/foundationv2:$PYTHONPATH
+export PYTHONPATH=$PWD/motion_tf:$PWD/analysis:$PWD:$PYTHONPATH
 ```
 
-Typical install time: **about 20 seconds** inside the `tensorflow/tensorflow:2.15.0-gpu`
-image, which already carries TensorFlow; in a fresh virtual environment expect a few
-minutes, dominated by the TensorFlow wheel download. There is nothing to compile.
-
-The `PYTHONPATH` export is needed for the full-scale entry points below; the demo sets its
-own import path and runs from the repository root without it.
+Typical install time is about 20 seconds inside the `tensorflow/tensorflow:2.15.0-gpu` image and a few minutes in
+a fresh virtual environment. There is nothing to compile. The demo sets its own import path.
 
 ## Demo
 
@@ -116,35 +133,9 @@ paper's knockout damages come from the 19-family checkpoints in [`WEIGHTS.md`](W
 Expected run time: **~110 s** total at the default 300 steps (about 50 s of that is the
 TensorFlow import, model build and first graph trace), **~210 s** at 600 steps.
 
-## Instructions for use
-
-To run MOTION on your own data, wrap each trajectory in the same unit dictionary the demo
-builds (`demo/run_demo.py`, `units()`):
-
-```python
-{"family": "incom_ns",          # a family in data/registry.py; sets the mechanism gates
- "K": 2,                        # spatial dimension
- "mode": "grid",                # "grid" or "point" (mesh)
- "dims": np.array([n, n]),
- "fields": g,                   # (T, n, n, S) on the universal semantic slots
- "cmask": cmask,                # (S,) which slots this family occupies
- "roles": [0, 1],               # vector-component slots
- **symbolic.encode(FAMILIES["incom_ns"], {"nu": nu})}
-```
-
-`make_example_ar` turns a unit into a training example and `rollout_loss` scores it; both
-are the same functions the 19-family trainer uses. A new equation family is added by
-appending a `FamilySpec` to `fig1_pretrain_mechanism/foundationv2/data/registry.py` - its
-`operators` tuple is what opens and closes the mechanism gates.
-
-Full-scale training, benchmarking and the figure pipeline are described under **Entry
-points** below; those paths expect the public benchmark corpora and the released
-checkpoints.
-
 ## Weights
 
-Trained checkpoints (5.4 GB total) are on Zenodo — see [`WEIGHTS.md`](WEIGHTS.md) for
-the table, DOI and SHA-256 sums. Extract each archive into `weights/`.
+See [`WEIGHTS.md`](WEIGHTS.md) for the four pretrained models, the environment each needs, and checksums.
 
 ## Data
 
@@ -157,78 +148,83 @@ No datasets are redistributed. The nineteen families are drawn from public bench
 | [PDEgym / Poseidon](https://github.com/camlab-ethz/poseidon) | NS-PwC, ACE, Wave-Layer, Poisson-Gauss, CE-RM and the IVP pretraining corpus |
 | [CFDBench](https://github.com/luo-yining/CFDBench) | channel flow — used in the 6-family joint benchmark (Fig. 2) and the equivalence tests (Fig. 4); not in the 19-family pretraining corpus |
 
-Loaders and one-off cache builders live in `common/motion_tf/data/` (`prep_multi.py`,
-`download_prose.py`, `poseidon.py`) and `fig1_pretrain_mechanism/foundationv2/data/`.
+Loaders and one-off cache builders live in `motion_tf/data/`.
 They expect the raw HDF5/NetCDF files and prebuilt caches at the paths given by the
 `PREBUILT_DIR`, `PROSE_DATA_DIR` and `CORPUS_ROOT` environment variables; see the
 docstrings at the top of each loader.
 
-## Entry points
+## Training and evaluation settings of the paper
 
-**Fig. 1 — pretraining and mechanism analysis** (`fig1_pretrain_mechanism/foundationv2/`)
+The commands below are run from `motion_tf/`. The effective batch size is `--batch` times the number of GPUs.
+
+| Manuscript setting | MOTION-S | MOTION-L | MOTION-NS | MOTION-IVP | Ablation variants | Option |
+|---|---|---|---|---|---|---|
+| Width / depth | 384 / 8 | 896 / 12 | 384 / 8 | 384 / 8 | 384 / 8 | `--d`, `--depth` (`--d_w 16`; MOTION-L `--d_w 48`) |
+| Temporal panels | 16 | 16 | 16 | 32 | 16 | `--n_p` |
+| Latent grid | per family | per family | 64² | 64² | per family | `--box_table 1`, or `--box_table 0 --dims2 64` |
+| Families | 19 | 19 | 6 | 6 | 19 | `--families` |
+| GPUs × batch (effective) | 2 × 4 (8), then 1 × 4 | 4 × 2 (8), then 1 × 4 | 2 × 4 (8) | 2 × 8 (16) | 1 × 8 (8) | `--batch` |
+| Updates (run length) | 134,900 + 25,150 | 106,250 + 40,000 | 160,000 | 80,000 + 100,000 + 50,000 | 20,000 | `--steps` |
+| Reported checkpoint | 110,000 + 20,000 | best of stage 2 | 160,000 | best of stage 3 | 20,000 | — |
+| Learning rate | 3e-4, then 5e-5 | 3e-4, then 2e-5 | 1e-4, cosine to 5% | 1e-4, 5e-5, 5e-5, cosine to 5% | 3e-4 | `--lr`, `--lr_sched cosine --lr_alpha 0.05` |
+| Warm-up updates | 2,000, then 1,000 | 2,000, then 1,000 | 4,000 | 2,000 | 2,000 | `--warmup` |
+| Second-stage loss | fluctuation-normalized | fluctuation-normalized | — | — | — | `--fluct_loss 1` |
+| Precision | float32 | float32, then bf16 | bf16 | bf16 | bf16 | `--bf16 1` |
+| Observed / forecast frames | 10 / 10 | 10 / 10 | 10 / 10 | 1–10 / 20 | 10 / 10 | `--t_in`, `--k_fut` |
+| Encoder / collocation points | 8,192 / 2,048 | same | same | same | same | `--enc_n`, `--n_colloc` |
+| Evaluation | test split, up to 128 trajectories per family, batch 8 | same | 100 per family | official test split | 128 per family | `eval_stats.py --split test --n … --batch 8` |
+
+Example (matched-budget reference of Fig. 3, one H100):
 
 ```bash
-# MOTION-S (20.7M). MOTION (156.9M) uses the same recipe with --d 896 --depth 12 --d_w 48.
-python -m v3.train --families motion --steps 160000 --batch 4 --batch3d 1 \
-  --d 384 --depth 8 --d_w 16 --n_p 16 --box_table 1 --gate_cond 1 --fam_head 1 \
-  --dict_decode 0 --t_in 10 --k_fut 10 --k_relax 4 --enc_n 8192 --n_colloc 2048 \
-  --xla 1 --eval_every 2000 --eval_n 8 --ckpt_every 2000 --save results/motion_s
+cd motion_tf
+python -m v3.train --families motion --steps 20000 --batch 8 --batch3d 1 --d 384 --depth 8 --d_w 16 --n_p 16 \
+  --box_table 1 --gate_cond 1 --fam_head 1 --dict_decode 0 --t_in 10 --k_fut 10 --k_relax 4 \
+  --enc_n 8192 --n_colloc 2048 --reuse3d 8 --xla 1 --lr 3e-4 --warmup 2000 --fluct_loss 0 --bf16 1 \
+  --save results/ablation_reference
+NO_DEAD_REPAIR=1 python eval_stats.py --ckpt results/ablation_reference/ckpt_20000.npz --split test --n 128 \
+  --batch 8 --batch3d 2 --xla 1 --out results/ablation_reference/stats.npz
 ```
 
-- `core/banks.py` — the mechanism-tendency vocabulary (including the vortex-stretching
-  head, identically zero in 2D: the structural-zero row of the knockout matrix).
-- `ablate_bank.py`, `probe_surface.py` — knockout damage and contribution-norm protocol
-  (needs a released checkpoint and the prepared corpus; `demo/run_demo.py` exercises the
-  same knockout handle with neither).
-- `fig1_dump.py`, `fig1_extra.py`, `render_fig1*.py` — panel pipeline; manuscript panel
-  inputs are in `refdata/fig1_m2s2/`.
-- `infer3d/` — in-graph 3D rotation-ensemble inference.
+The exact command, environment and job script behind every figure and table are listed in
+[`experiments/README.md`](experiments/README.md).
 
-**Fig. 2 — joint benchmark** (`fig2_joint_benchmark/`, `common/motion_tf/`)
+## Compatibility switches
 
-- `motion_tf/model.py`, `motion_tf/train/train_prose_mgpu.py`; config lineage
-  `motion_tf/train/configs/prose_150M_fluid5_6x_unified_task2_advb2_arh5_bylfa*.py`.
-- Fair-protocol baselines: `jobscripts/bcat-fair.*`, `prose-fair.json`; curves in
-  `refdata/fair_baseline_curves.csv`, reference curve `refdata/bylfa_eval_curve_phys.csv`.
+Some behaviour changed between the submitted checkpoints and the current code. The switches below reproduce each
+released checkpoint exactly; they are read from the environment.
 
-**Fig. 3 — IVP pretraining and few-shot transfer** (`fig3_ivp_transfer/`, `common/motion_tf/`)
+| Switch | Meaning | Needed for |
+|---|---|---|
+| `MOTION_LEGACY_VOCAB=1` | 13-token operator vocabulary of the MOTION-S and MOTION-L checkpoints (the current vocabulary has a fourteenth token, `phase_change`). Without it the conditioning vector of these checkpoints is misaligned. | MOTION-S, MOTION-L |
+| `MOTION_VORTEX2D_LEGACY=1` | Evaluates the vortex-stretching head in two dimensions as these checkpoints were trained. In the current code the head is evaluated in three dimensions only, so its two-dimensional contribution is exactly zero. | MOTION-S, MOTION-L |
+| `NO_DEAD_REPAIR=1` | Restores a checkpoint exactly. Without it, head weights that are identically zero are re-initialized on loading, which is intended for training only. The evaluation job scripts set it. | every evaluation |
+| `MOTION_WARP_LIVE=1`, `MOTION_BANK_NGENERIC=8`, `MOTION_BANK_GENERIC_MERGE=1` | Active Lagrangian transport map and generic tendency. | MOTION-NS, MOTION-IVP |
+| `MOTION_INPUT_ZSCORE=1`, `MOTION_COND_STATS=1` | Per-window mean–standard-deviation normalization with the window statistics appended to the conditioning. | MOTION-NS |
+| `MOTION_FT_NOMETA=1`, `MOTION_GLOBAL_NORM=1`, `MOTION_FORCE_MODE=ss`, `MOTION_SS_WARP=blend` | No equation metadata, per-dataset normalization, panel-wise forecast of MOTION-IVP. | MOTION-IVP |
 
-- `motion_tf/train/train_ivp.py` — IVP-mode trainer (autoregressive hop-2 refeed).
-- Pretrain config `motion_tf/train/configs/poseidon_pretrain_ivp_combo_158m_scratch.py` (800k steps).
-- Finetuning arms (the config module differs per arm):
-  NS-PwC direct = `_pad` cfg + pad2 checkpoint + `FT_UV_ONLY=1 FT_IC_FRAC=1.0`;
-  NS-PwC AR = x4 checkpoint + base cfg + hop-2;
-  ACE / Wave-Layer = `_pad_t` cfg + pad checkpoint;
-  Poisson-Gauss = base cfg + x4 checkpoint + `FT_IC_FRAC=0 FT_LOSS_CAP=100`.
-- `jobscripts/scot_ourmetric2.py`, `scot-runner2ic.sh` — scOT rescoring under the same metric.
-
-**Fig. 4 — physical equivalence** (`fig4_physical_equivalence/`)
-
-- `scorers/eps_equiv_motion.py` — ε_equiv(T) = ‖T⁻¹G(Tu) − G(u)‖ / ‖G(u)‖.
-  `eps_equiv_walrus.py` scores the same quantity for the Walrus model; that comparison is
-  exploratory and is **not** part of the manuscript, which cites Walrus only as related work.
-- `scorers/wens.py`, `group_size_curve.py` — equivalence-ensemble averaging; `boost_*` — the
-  Galilean-boost negative result, derivation in `boost_legality.md`.
-- `render/` + `refdata/equiv_readouts.json` — numbers behind Fig. 4c/4d.
-  Validity rule used throughout: ε ≤ err_id + err_g.
+**Interface-sensitive head.** The vocabulary in `motion_tf/core/banks.py` contains one more head,
+`phase_interface` (operator |∇h| ∇²h), kept from development for equations with interface dynamics. It is opened
+only by the `phase_change` token, which no family of the present corpus carries: it is not instantiated in the
+MOTION-S and MOTION-L checkpoints (13-token vocabulary) and is instantiated but closed in every family in the
+ablation variants. It can be enabled by adding the `phase_change` operator to a family in `motion_tf/data/registry.py`.
 
 ## Reproduction notes
 
-1. **Numeric mode is part of the learned function.** Score each checkpoint in the mode it
-   was trained in (bf16); e.g. Poisson gives 6.26% in bf16 but 13.92% in f32.
-2. The 3D ensemble-inference scripts (`infer3d/infer3d_graph*.py`) default to the MOTION-S
-   architecture; MOTION needs `ARCH_D=896 ARCH_DEPTH=12 ARCH_DW=48`.
-3. The MOTION forward pass needs a GPU; 128²-native boxes run out of memory in eager
-   mode — use graph mode (`tf.function`) as the scripts do.
-4. Checkpoints are TF 2.15 named-array `.npz` files loaded positionally; use the same TF
-   major version.
-5. Runner scripts retain the cluster identifiers (volume mounts, job slugs) of the original
-   runs for provenance; substitute your own paths.
+1. **Numeric mode is part of the learned function.** Score each checkpoint in the precision it was trained in.
+2. The forward pass at 128² needs a GPU and graph mode (`--xla 1`), as the scripts use.
+3. Checkpoints are TensorFlow 2.15 named-array `.npz` files; `motion_torch` reads the same files.
+4. The job scripts under `experiments/` and `baselines/` are records of the runs. They keep the directory layout
+   of the cluster on which they ran (`/corpus`, `/eu`, `/work`); substitute your own paths.
+5. Latent-command experiments (Fig. 2) were run on one workstation GPU from the launchers in
+   `experiments/latent_control/`.
+6. Several supplementary tables were assembled by hand from the outputs of the listed scripts;
+   `experiments/README.md` states which.
 
 ## License
 
-Code: [MIT](LICENSE). Weights: CC-BY-4.0 (see the Zenodo record).
-Third-party baselines and datasets remain under their own licenses.
+Code: [MIT](LICENSE). Weights: CC-BY-4.0 (see the Zenodo record). Third-party baselines and datasets remain under
+their own licenses.
 
 ## Citation
 
@@ -237,6 +233,6 @@ Third-party baselines and datasets remain under their own licenses.
   title   = {Mechanism-oriented tendency-integration operator networks for PDE foundation models},
   author  = {Lee, Jeongsu},
   year    = {2026},
-  note    = {submitted}
+  note    = {under review}
 }
 ```

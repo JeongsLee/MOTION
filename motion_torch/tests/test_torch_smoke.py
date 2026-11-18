@@ -1,7 +1,7 @@
 """Port-only smoke test (no TensorFlow, no checkpoint needed): every preset builds, the TF name map is complete,
 AR step / single-shot / rh run on synthetic samples, structural invariants of the reference hold, gradients flow.
 
-  ~/anaconda3/envs/torch/bin/python tests/test_torch_smoke.py      (or pytest)"""
+  python tests/test_torch_smoke.py      (or pytest)"""
 import os
 import sys
 
