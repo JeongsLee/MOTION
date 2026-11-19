@@ -67,8 +67,14 @@ environment pinned by its own repository (PyTorch 2.4.0-2.7.1, see `requirements
 The runner scripts under `baselines/` record the exact images, commands and settings
 used to retrain or rescore them under the matched protocol.
 
+The job scripts under `baselines/`, `analysis/` and `experiments/jobs/` are the scripts that produced the results and
+keep the storage paths (`/corpus`, `/eu`, `/code-vol`) and run names of the cluster they ran on. To rerun them, point
+these paths to your copies of the data and checkpoints; many scripts read them from environment variables that default
+to the cluster paths.
+
 The PyTorch implementation needs PyTorch 2.0 or later (the accelerated path was timed with PyTorch 2.5.1) and does
-not import TensorFlow.
+not import TensorFlow. It is not installed by `requirements.txt`; install `torch` separately
+(`pip install torch`).
 
 ## Installation
 
@@ -146,7 +152,7 @@ No datasets are redistributed. The nineteen families are drawn from public bench
 | [PDEBench](https://github.com/pdebench/PDEBench) | shallow water, diffusion–reaction, 2D/3D compressible Navier–Stokes, incompressible NS |
 | [PDEArena](https://github.com/pdearena/pdearena) | Navier–Stokes 2D (conditioned / unconditioned) |
 | [PDEgym / Poseidon](https://github.com/camlab-ethz/poseidon) | NS-PwC, ACE, Wave-Layer, Poisson-Gauss, CE-RM and the IVP pretraining corpus |
-| [CFDBench](https://github.com/luo-yining/CFDBench) | channel flow — used in the 6-family joint benchmark (Fig. 2) and the equivalence tests (Fig. 4); not in the 19-family pretraining corpus |
+| [CFDBench](https://github.com/luo-yining/CFDBench) | channel flow — used in the six-family Navier–Stokes benchmark (Fig. 4a) and the equivalence tests (Fig. 4d); not in the 19-family pretraining corpus |
 
 Loaders and one-off cache builders live in `motion_tf/data/`.
 They expect the raw HDF5/NetCDF files and prebuilt caches at the paths given by the
