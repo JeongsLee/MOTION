@@ -67,8 +67,14 @@ environment pinned by its own repository (PyTorch 2.4.0-2.7.1, see `requirements
 The runner scripts under `baselines/` record the exact images, commands and settings
 used to retrain or rescore them under the matched protocol.
 
+The job scripts under `baselines/`, `analysis/` and `experiments/jobs/` are the scripts that produced the results and
+keep the storage paths (`/corpus`, `/eu`, `/code-vol`) and run names of the cluster they ran on. To rerun them, point
+these paths to your copies of the data and checkpoints; many scripts read them from environment variables that default
+to the cluster paths.
+
 The PyTorch implementation needs PyTorch 2.0 or later (the accelerated path was timed with PyTorch 2.5.1) and does
-not import TensorFlow.
+not import TensorFlow. It is not installed by `requirements.txt`; install `torch` separately
+(`pip install torch`).
 
 ## Installation
 
