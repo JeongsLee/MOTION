@@ -32,10 +32,12 @@ Tensors are channels-last `(B, *dims, C)` as in TF.
 ## Usage
 
 ```bash
-# convert once (optional: build_model() also reads the .npz directly)
-python -m motion_torch.convert --ckpt checkpoints/m1f_ckpt_best.npz --preset motion_s --out motion_s.pt
-python -m motion_torch.convert --ckpt checkpoints/zsc_ckpt_160000.npz --preset motion_ns --out motion_ns.pt
-python -m motion_torch.convert --ckpt checkpoints/m2s2_ckpt_best.npz --preset motion --out motion.pt
+# the converted .pt files are released on Zenodo (see ../WEIGHTS.md); to convert from the TensorFlow checkpoints
+# yourself (optional: build_model() also reads the .npz directly):
+python -m motion_torch.convert --ckpt checkpoints/motion_s_20.7m/ckpt_best.npz --preset motion_s --out motion_s.pt
+python -m motion_torch.convert --ckpt checkpoints/motion_ns_ckpt_160000.npz --preset motion_ns --out motion_ns.pt
+python -m motion_torch.convert --ckpt checkpoints/motion_156.9m/ckpt_best.npz --preset motion --out motion_l.pt
+python -m motion_torch.convert --ckpt checkpoints/motion_ivp_ckpt_best.npz --preset motion_ivp_s --out motion_ivp.pt
 ```
 
 ```python
@@ -46,7 +48,7 @@ from motion_torch.inference import to_torch, predict, trajectory_error, to_physi
 
 torch.backends.cuda.matmul.allow_tf32 = False          # float32 parity with TF (optional for plain use)
 cfg = PRESETS["motion_s"]
-model = build_model(cfg, "m1f_ckpt_best.npz", device="cuda")          # or "motion_s.pt"
+model = build_model(cfg, "checkpoints/motion_s_20.7m/ckpt_best.npz", device="cuda")   # or "checkpoints/motion_s.pt"
 unit = load_local_units("units_nss_mtf.pkl")["incom_ns"][0]            # any unified-corpus sample dict
 ex = make_example_ar(unit, 10, 10, 4, 2048, 8192, np.random.default_rng(0), cfg,
                      box_dims=box_dims_for("incom_ns", cfg))
@@ -67,7 +69,7 @@ Fine-tuning (rel-L2 per channel by default, `--l1 1` for rel-L1; Adam/AdamW; cos
 as Keras or `--clip_mode global`):
 
 ```bash
-python -m motion_torch.finetune --ckpt m1f_ckpt_best.npz --preset motion_s \
+python -m motion_torch.finetune --ckpt checkpoints/motion_s_20.7m/ckpt_best.npz --preset motion_s \
     --units checkpoints/units_nss_mtf.pkl --families incom_ns --steps 200 --lr 1e-4 --save ft.pt
 ```
 
@@ -84,12 +86,16 @@ Environment overrides: `TF_PYTHON`, `MOTION_FV2` (reference tree), `LOCAL_UNITS`
 
 ## Released models: environment flags -> config
 
+File names are those of the Zenodo record (see `../WEIGHTS.md`). The job scripts and the notes below use the run
+names of the training runs: `m1f` = MOTION-S, `m2s2` = MOTION-L, `zsc` = MOTION-NS, `motion_ivps` / `MOTION-IVP-S` =
+MOTION-IVP.
+
 | model | checkpoint | TF environment / args | preset |
 |---|---|---|---|
-| MOTION-S (paper m1f, 20.7M) | `checkpoints/m1f_ckpt_best.npz` | `MOTION_LEGACY_VOCAB=1 MOTION_VORTEX2D_LEGACY=1 NO_DEAD_REPAIR=1`; d 384, depth 8, d_w 16, n_p 16, t_in 10; per-family box (BOX_TABLE) | `motion_s` |
-| MOTION (m2s2, 156.9M) | `checkpoints/m2s2_ckpt_best.npz` | as MOTION-S, `--d 896 --depth 12 --d_w 48` | `motion` |
-| MOTION-NS (zsc, 21.8M) | `checkpoints/zsc_ckpt_160000.npz` | `MOTION_WARP_LIVE=1 MOTION_BANK_NGENERIC=8 MOTION_BANK_GENERIC_MERGE=1 MOTION_BOX_UNIFORM=64 MOTION_INPUT_ZSCORE=1 MOTION_COND_STATS=1` (`MOTION_SPLIT_MTF=1` = data split only) | `motion_ns` |
-| MOTION-IVP-S (not local) | — | `MOTION_FORCE_MODE=ss MOTION_SS_WARP=blend MOTION_WARP_LIVE=1 MOTION_INPUT_ZSCORE=1 MOTION_GLOBAL_NORM=1 MOTION_BANK_NGENERIC=8 MOTION_BANK_GENERIC_MERGE=1 MOTION_FT_NOMETA=1`, `--n_p 32 --t_in 1 --k_fut 20 --box_table 0 --dims2 64` | `motion_ivp_s` |
+| MOTION-S (20.7M) | `checkpoints/motion_s_20.7m/ckpt_best.npz` or `motion_s.pt` | `MOTION_LEGACY_VOCAB=1 MOTION_VORTEX2D_LEGACY=1 NO_DEAD_REPAIR=1`; d 384, depth 8, d_w 16, n_p 16, t_in 10; per-family box (BOX_TABLE) | `motion_s` |
+| MOTION-L (156.9M) | `checkpoints/motion_156.9m/ckpt_best.npz` or `motion_l.pt` | as MOTION-S, `--d 896 --depth 12 --d_w 48` | `motion` |
+| MOTION-NS (21.8M) | `checkpoints/motion_ns_ckpt_160000.npz` or `motion_ns.pt` | `MOTION_WARP_LIVE=1 MOTION_BANK_NGENERIC=8 MOTION_BANK_GENERIC_MERGE=1 MOTION_BOX_UNIFORM=64 MOTION_INPUT_ZSCORE=1 MOTION_COND_STATS=1` (`MOTION_SPLIT_MTF=1` = data split only) | `motion_ns` |
+| MOTION-IVP (25.6M) | `checkpoints/motion_ivp_ckpt_best.npz` + `motion_ivp_global_norm.json`, or `motion_ivp.pt` | `MOTION_FORCE_MODE=ss MOTION_SS_WARP=blend MOTION_WARP_LIVE=1 MOTION_INPUT_ZSCORE=1 MOTION_GLOBAL_NORM=1 MOTION_BANK_NGENERIC=8 MOTION_BANK_GENERIC_MERGE=1 MOTION_FT_NOMETA=1`, `--n_p 32 --t_in 1 --k_fut 20 --box_table 0 --dims2 64` | `motion_ivp_s` |
 
 What each switch does in the port (`MotionConfig` field):
 
