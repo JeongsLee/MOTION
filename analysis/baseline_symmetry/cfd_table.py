@@ -1,4 +1,4 @@
-"""REVISION-R1 (user 10-21): Fig. 4c CFDBench row on the two flow channels. Identity error and the error of the
+"""REVISION-R1 (user 10-21): CFDBench row of the equivalence comparison (Fig. 4d) on the two flow channels. Identity error and the error of the
 symmetry-averaged prediction (identity + admitted mirror) for BCAT / PROSE-FD, on all real channels (as the submitted table)
 and on the two flow channels (as MOTION). Several mirror implementations are evaluated so the submitted 3-channel value
 (BCAT 0.377 / 0.561) can be matched before switching to 2 channels."""

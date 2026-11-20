@@ -1,4 +1,4 @@
-"""Equivariance diagnostics for the foundationv2 models (revision R1; Fig. 4b protocol, A01-corrected).
+"""Equivariance diagnostics for the foundationv2 models (revision R1; protocol of Fig. 4d).
 
 For every dense 128^2 periodic 2-D family (all grid nodes are predicted, so whole fields can be
 transformed and compared), each trajectory is rolled out from its initial window under a group
@@ -62,7 +62,7 @@ GD_D4 = tuple(GD)                     # the dihedral group proper (8); fr_ns is 
 GD["fr_ns"] = (0, 1, 0)
 MEMBERS_OVERRIDE = {"cfdbench": [("id", 0), ("fr_ns", 0)], "pdearena_ns": [("id", 0), ("fr", 0)],
                     "pdearena_uncond": [("id", 0), ("fr", 0)]}
-# Translation classification already fixed in the paper (SI Note 5 / Table S6, seam criterion applied
+# Translation classification already fixed in the paper (Supplementary Note 4.1, seam criterion applied
 # to the stored trajectories); used verbatim for these families so the ablation numbers are on the
 # same footing. Other families fall back to the seam-ratio rule (<= 3).
 PAPER_SHIFT_CLASS = {"shallow_water": True, "com_ns": True, "incom_ns": True, "ACE": False,
@@ -424,7 +424,7 @@ for fam in fams:
     _nb = np.mean([np.abs(np.diff(_f, axis=ax)).mean() for ax in (1, 2)]) + 1e-12
     _seam = np.mean([np.abs(np.take(_f, 0, ax) - np.take(_f, -1, ax)).mean() for ax in (1, 2)])
     seam_ratio = float(_seam / _nb)
-    # same admissibility rule as the paper (Methods "Physical-equivalence tests", SI Note 5/Table S6):
+    # same admissibility rule as the paper (Methods "Physical-equivalence tests", Supplementary Note 4.1):
     # seam comparable to interior differences (or ~0 when the disturbance never reaches the boundary,
     # e.g. SWE) admits translation; ACE (8.8-10x) and other non-periodic fields are excluded.
     shift_ok = seam_ratio <= 3.0
@@ -494,7 +494,7 @@ for fam in fams:
         if sig > 2.0:
             print(f"  [warn] {fam}: pairing signature {sig:.2f} (single-flip defects >> others) -> vector pairing suspect",
                   flush=True)
-        # replica accuracy ratio (paper SI Table S6 convention): transformed-copy error / identity error
+        # replica accuracy ratio (convention of Supplementary Note 4.1): transformed-copy error / identity error
         summary[fam]["replica_ratio"] = {g: fs[g][0] / max(fs["id"][0], 1e-9) for g in fs}
     print("     per-g (err, defect): " + " ".join(f"{k}=({v[0]:.2f},{v[1]:.2f})" for k, v in fs.items()
                                                if not k.endswith("_s1") and not k.endswith("_s8")), flush=True)

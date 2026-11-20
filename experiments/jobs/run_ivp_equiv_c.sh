@@ -1,6 +1,6 @@
 #!/bin/bash
 # REVISION-R1 10-27 (user): equivariance (D4 x periodic shifts) of the final MOTION-IVP (stage-3 option C,
-# motion_ivps_gn3w/ckpt_best) on the six Poseidon pretraining families, as main-text Fig. 5d for MOTION-S / Poseidon-T:
+# motion_ivps_gn3w/ckpt_best) on the six Poseidon pretraining families, as in Fig. 4d:
 # test split, first 128 per family, rho,u,v,p scored (EQUIV_SCORE_SLOTS=3,0,1,4). Inference as scored for this model:
 # one observed frame at t = 0 in the 10-frame window of this t_in-10 model (EQUIV_T_IN 10 + MOTION_TI_FIXED 1; EQUIV_T_IN 1
 # built a t_in-1 model: encoder shape mismatch at load, identity CE-RP error 49.5%), receding-horizon hop-1 rollout over

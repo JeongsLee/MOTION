@@ -111,7 +111,7 @@ cp /work/runs/poseidon_ft_data/eval_scot_ft15.py /tmp/po/
 [ "${PAPER_ONLY:-0}" = 1 ] || \
 for SP in ${SPLITS:-val test}; do for MO in direct ar; do
   [ "$KF" = 1 ] && [ "$MO" = ar ] && continue
-  # REVISION-R1 10-27: DUMP_N=k -> also save predictions / ground truth of the first k trajectories (Fig. 4d)
+  # REVISION-R1 10-27: DUMP_N=k -> also save predictions / ground truth of the first k trajectories (downstream prediction panels)
   # (DUMP is set before OUT: prefix assignments expand left to right, so a later OUT would change $OUT)
   DUMP=${DUMP_N:+$OUT/dump_${SP}_${MO}.npz} DUMP_N=${DUMP_N:-16} \
   TASK=$TASK MODEL=$BEST DS=$DS DATA=$DATA KF=$KF STEP=$ST SPLIT=$SP MODE=$MO NEV=$NEVA OUT=$OUT/score_${SP}_${MO}.json \

@@ -1,4 +1,4 @@
-"""Supplementary Note 1: the two-stage pretraining, at both model sizes.
+"""Supplementary Note 1.4: the two-stage pretraining, at both model sizes.
 
 Class-averaged relative L2 in physical space -- the convention every number in the paper
 is reported in -- against optimizer step, for MOTION and for the scale-reduced MOTION-S.

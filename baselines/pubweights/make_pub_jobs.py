@@ -1,6 +1,6 @@
 """REVISION-R1 11-06: evaluate the RELEASED BCAT (HF felix-lyx/bcat, bcat.pth) and PROSE-FD (HF felix-lyx/prose,
-prose_fd.pth) weights on our test-600 (same loader, same symmetry members as the retrained baselines of Fig. 4 /
-Supplementary Note 9). Derived from the release runners bcat_sym_runnerE.sh / symk8_prose_shift.sh: same deps, cache
+prose_fd.pth) weights on our test-600 (same loader, same symmetry members as the retrained baselines of Fig. 4a,d /
+Supplementary Note 3.2). Derived from the release runners bcat_sym_runnerE.sh / symk8_prose_shift.sh: same deps, cache
 loader and eval patch; changes: eval_from_exp = released .pth, dump prefix _{bcat,prose}pubE_, general member
 transform (transpose -> roll -> flips, FLIP_SIGN), member loop below, per-trajectory metrics at the end
 (baseline_pertraj_pub.py).  python make_pub_jobs.py -> {bcat,prose}_pub_runner.sh, {bcat,prose}-pub.json"""

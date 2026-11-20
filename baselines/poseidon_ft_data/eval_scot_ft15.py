@@ -70,7 +70,7 @@ def predict(t):
 
 ORI = (lambda a: a, lambda a: np.swapaxes(a, -1, -2))
 err = np.zeros((n, len(leads))); fitlog = {}
-# REVISION-R1 10-27 (Fig. 4d): DUMP=<npz> -> physical predictions and ground truth of the first DUMP_N trajectories at
+# REVISION-R1 10-27 (downstream prediction panels): DUMP=<npz> -> physical predictions and ground truth of the first DUMP_N trajectories at
 # every scored lead (same orientation as the raw file), with the per-trajectory errors
 DUMP = os.environ.get("DUMP", ""); DN = min(n, int(os.environ.get("DUMP_N", "16"))); DP, DY = [], []
 for j, t in enumerate(leads):

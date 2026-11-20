@@ -211,9 +211,14 @@ released checkpoint exactly; they are read from the environment.
 
 **Interface-sensitive head.** The vocabulary in `motion_tf/core/banks.py` contains one more head,
 `phase_interface` (operator |∇h| ∇²h), kept from development for equations with interface dynamics. It is opened
-only by the `phase_change` token, which no family of the present corpus carries: it is not instantiated in the
-MOTION-S and MOTION-L checkpoints (13-token vocabulary) and is instantiated but closed in every family in the
-ablation variants. It can be enabled by adding the `phase_change` operator to a family in `motion_tf/data/registry.py`.
+only by the `phase_change` operator token. This token is not activated: no family used in the paper carries it, so
+with equation metadata the head stays closed (zero gate, no gradient). It is not instantiated in the MOTION-S and
+MOTION-L checkpoints (13-token vocabulary), and it is instantiated but closed in MOTION-NS and in the ablation
+variants trained with metadata; its 0.13–0.14M parameters are included in the parameter count printed by the
+training log and are not counted in the paper (ablation reference: 20.8M in the log, 20.7M in the paper). Models
+trained without metadata (MOTION-IVP and the ablation variants without metadata) apply no operator mask, so all heads
+of the vocabulary, including this one, are open in them. The head can be enabled for a family by adding the
+`phase_change` operator to it in `motion_tf/data/registry.py`.
 
 ## Reproduction notes
 

@@ -21,7 +21,7 @@ so the rollout is compiled ONCE per input shape instead of once per configuratio
 outer loop (examples built once and reused by every configuration), and the next family's examples
 are built in a background thread. Outputs are identical to v1 (eval_stats_v1.py).
 --rng_mode eval19 reproduces eval19_fam.py exactly (single global rng 1234, batch 1, val split):
-use it once to validate this scorer against Supplementary Table S1.
+use it once to validate this scorer against the per-family errors of the submitted version.
 """
 import argparse, json, os, sys, time, zlib
 import itertools

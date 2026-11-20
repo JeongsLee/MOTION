@@ -1,4 +1,4 @@
-"""Fig. 4d, vertical layout (REVISION-R1 10-30, user): the equivalence test as one column so that panel e can sit
+"""Fig. 4c (file name from development: fig4d), vertical layout (REVISION-R1 10-30, user): the equivalence test as one column so that panel d can sit
 beside it at a larger width. Top row: the observed state u0 and its transformed equivalent Phi u0; both pass through
 one operator; middle row: the two predictions; bottom: the equivariance defect |Phi^-1 G(Phi u0) - G(u0)|.
 Same data and colour code as render_fig4a_v2.py (horizontal version, kept).

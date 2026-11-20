@@ -1,4 +1,4 @@
-"""REVISION-R1 (10-22): equivariance diagnostics for Poseidon (scOT), same protocol as eval_equiv.py (Fig. 4b).
+"""REVISION-R1 (10-22): equivariance diagnostics for Poseidon (scOT), same protocol as eval_equiv.py (Fig. 4d).
 Units/IC/leads as poseidon_same.py (loader SPLIT, first NEV per family, IC = frame 0, direct lead k at time k/20).
 For g in D4 (8) x periodic shifts (0, 1, 8 cells): P_g = g^-1 f(g x0); per frame, physical units, Poseidon channels
 (CE: rho, u, v, p; NS: u, v):

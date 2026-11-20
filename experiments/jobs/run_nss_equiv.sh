@@ -1,7 +1,7 @@
 #!/bin/bash
 # REVISION-R1: equivariance (D4 x periodic shifts, K4/K8/T3/K8xT3 ensembles) of a MOTION-NS-S checkpoint on the
-# six joint-benchmark families (Fig. 4c; CFDBench / PDEArena: admitted row mirror only, K2 ensemble), plus last-frame
-# prediction dumps for the Fig. 3d contour panel, test-600 MTF split (first 100/family),
+# six joint-benchmark families (Fig. 4d; CFDBench / PDEArena: admitted row mirror only, K2 ensemble), plus last-frame
+# prediction dumps for the contour panels of Supplementary Fig. 13, test-600 MTF split (first 100/family),
 # for the replacement of the published MOTION-NS (bylfa) values. Env: RUN, CK, plus the arm's input flags
 # (zsc: MOTION_INPUT_ZSCORE=1 MOTION_COND_STATS=1). eval_equiv.py honours MOTION_BOX_UNIFORM (patched 2026-10-21).
 set -e -o pipefail

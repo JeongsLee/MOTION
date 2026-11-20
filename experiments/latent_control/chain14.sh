@@ -1,5 +1,5 @@
 #!/bin/bash
-# Local GPU chain 14 (m1f): Fig. 2d fields - divergent command (source/sink) on the compressible families, rad 20, amps 2/4 std.
+# Local GPU chain 14 (m1f): Fig. 2f fields - divergent command (source/sink) on the compressible families, rad 20, amps 2/4 std.
 L=${MOTION_LOCAL:-motion_local}; O=$L/out_ctl3dv; mkdir -p $O
 exec 9>$L/chain.lock; flock 9
 cd ${MOTION_REPO:-.}/motion_tf

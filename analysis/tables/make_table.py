@@ -1,4 +1,4 @@
-# SI table for Supplementary Note 18 from v5_h0.json.
+# SI table for Supplementary Note 1.3 (state head) from v5_h0.json.
 import json
 R = {r['fam']: r for r in json.load(open('v5_h0.json'))}
 NAMES = [("shallow_water", "SWE"), ("diff_react", "Diff-React"), ("com_ns", "Comp. NS"), ("incom_ns", "Incomp. NS"),

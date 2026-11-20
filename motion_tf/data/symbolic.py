@@ -22,7 +22,7 @@ OPERATOR_VOCAB = [
     "<null>", "advection", "diffusion", "reaction", "divergence", "pressure_grad",
     "pressure_projection", "buoyancy", "shear", "wave", "laplacian", "elliptic",
     "turbulence",
-    "phase_change",     # Fig2c: NEW mechanism token (PoolBoil arm B) — appended LAST, ids stable
+    "phase_change",     # development token (opens the phase_interface head); carried by no family of the paper — appended LAST, ids stable
 ]
 # REVISION-R1: the op multi-hot is the FIRST block of the cond vector (v3/cond.py COND_DIM), so the
 # extra token shifts every later cond feature by one slot. Checkpoints trained before it was added

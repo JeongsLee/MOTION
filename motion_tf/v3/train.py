@@ -87,7 +87,7 @@ BOX_TABLE_2D = {
     "CE-KH": 32, "CE-Gauss": 32, "NS-Gauss": 32, "Poisson-Gauss": 32, "diff_react": 32,
     "CE-RP": 64, "CE-CRP": 64, "CE-RM": 64, "NS-Sines": 64,
     "pdearena_ns": 128, "pdearena_uncond": 128,
-    # Fig2 downstream: NS-PwC = incompressible transport with sharp vorticity interfaces
+    # Downstream: NS-PwC = incompressible transport with sharp vorticity interfaces
     # (NS-Sines class -> 64); GCE-RT = CE-type with RT plumes (CE-RP class -> 64).
     "NS-PwC": 64, "GCE-RT": 64, "PoolBoil-Sub": 64, "PoolBoil-SubX": 64,
 }
@@ -1150,7 +1150,7 @@ def main():
             functools.partial(_split, t)) for t in ts)
         return (_dist_step_rh if md == "rh" else _dist_step_ss if ss else _dist_step)(dist, *st, w, n)
 
-    # ------------------------------------------------------------------ physics loss (Fig2 arm-2)
+    # ------------------------------------------------------------------ physics loss (development option)
     # Analytic continuity residual on the 3D transient buckets: d(rho)/dt from the model's OWN
     # tendency (JVP through the decoder, no time differences) must balance a divergence flux
     # computed by central FD on the prepended coarse lattice. The unknown unit ratio between the

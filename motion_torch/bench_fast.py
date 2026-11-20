@@ -3,7 +3,7 @@
   python -m motion_torch.bench_fast --ckpt zsc_ckpt_160000.npz [--batch 8] [--fam incom_ns] [--n 128]
 
 Inference = one full forecast (ten autoregressive frames at 128^2, all grid nodes), batch 8, after warm-up, as the
-cost table of Supplementary Note 15 (excluding data preparation). Training = forward + backward of one ten-frame
+cost table of Supplementary Note 5 (excluding data preparation). Training = forward + backward of one ten-frame
 rollout segment (finetune.rollout_loss_backward), batch 8. Each configuration is checked against the float32
 reference on the same batch (relative difference of the forecast). FLOPs are counted once with
 torch.utils.flop_counter (reference configuration).

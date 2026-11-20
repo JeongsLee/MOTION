@@ -1,6 +1,6 @@
 """REVISION-R1 (R1 minor 2; user 10-21): per-element replica errors of BCAT / PROSE-FD on the five non-SWE families of the
-joint benchmark, from the existing /eu symmetry dumps, so that Supplementary Fig. 4 (replica accuracy ratio) covers all six
-families like Fig. 4b. Inverse = the convention of eps_base_final.py (the source of the corrected Fig. 4b defects): flip /
+joint benchmark, from the existing /eu symmetry dumps, so that the replica error ratio covers all six
+families (Fig. 4d). Inverse = the convention of eps_base_final.py (the source of the corrected equivariance defects): flip /
 transpose on space with the sign of ch0 (row mirror) / ch1 (column mirror) and the ch0<->ch1 swap on transpose. CFDBench also
 gets the scalar-channel row mirror (frns dump, 2 real channels) as in eps_base_final.py. Pure translations: sh1 / sh8 dumps,
 both roll signs evaluated, the one with the lower GT error kept (as swe_recompute v3).

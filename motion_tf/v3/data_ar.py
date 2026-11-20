@@ -290,7 +290,7 @@ def make_example_ar(sample, t_in, k_fut, k_relax, n_colloc, enc_n, rng, box_dims
         if len(ni) < enc_n:                                   # pad to fixed count (replace)
             ni = np.concatenate([ni, rng.integers(0, N, size=enc_n - len(ni))])
     qi = _pick(rng, N, n_colloc, wall_w)
-    # PHYS-GRID (Fig2 arm-2): prepend a regular stride lattice (phys_grid^K cells, C-order) to
+    # PHYS-GRID (development option): prepend a regular stride lattice (phys_grid^K cells, C-order) to
     # the collocation queries so the physics-residual loss can take finite differences on a
     # coarse grid — anchor values (ic_q) and targets (y_q) then come along for free. 3D
     # transient grid families only; every consumer below indexes with qi generically.

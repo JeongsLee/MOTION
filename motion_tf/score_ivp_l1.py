@@ -216,7 +216,7 @@ def _batched_predict_ar(exs, i0, fam):
 
 rows = {}
 pooled_f, pooled_t = [], []
-# REVISION-R1 10-27 (Fig. 4d): DUMP=<prefix> -> <prefix>_<family>.npz with the physical ground truth and predictions on
+# REVISION-R1 10-27 (downstream prediction panels): DUMP=<prefix> -> <prefix>_<family>.npz with the physical ground truth and predictions on
 # the node set (= every grid cell for 2D grids up to 128^2, C-order of dims) of the first DUMP_N trajectories: direct
 # (single-shot / steady) at every lead and, with HOP, the hop-AR rollout at its leads; per-trajectory errors as scored
 DUMP = os.environ.get("DUMP", ""); DUMP_N = int(os.environ.get("DUMP_N", "16"))

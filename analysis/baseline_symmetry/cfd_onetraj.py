@@ -1,5 +1,5 @@
 """REVISION-R1 11-06: CFDBench row mirror (across the flow axis), one test trajectory, BCAT / PROSE-FD from the /eu
-symmetry dumps (_{tag}symE_{id,frns}_cfdbench.npz; frns = input row-flipped without sign change, as in Fig. 4e).
+symmetry dumps (_{tag}symE_{id,frns}_cfdbench.npz; frns = input row-flipped without sign change, as in the equivalence test of Fig. 4d).
 Inverse = row flip of the prediction. First 16 test trajectories (MOTION-NS dumps the same 16, see
 run_cfd_onetraj.sh); for each: GT, identity prediction and inverse-transformed mirror prediction, last predicted
 frame, the two flow channels. Writes a small npz for plotting.
