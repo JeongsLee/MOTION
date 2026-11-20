@@ -1,6 +1,6 @@
 """Fig. 3 ablation (revision R1, 2026-10-23, user): 2x2 layout, D / AUC (with permutation p) / E only; no table, no OOD;
-vocabulary moved to SI (separate output). Derived from fig2_v5.py.
-Fig. 2 (v5) — bar design following the Nature figure guide: 183 mm wide, sans-serif (Arial-metric Liberation Sans)
+vocabulary moved to SI (separate output). Derived from an earlier figure script.
+Bar design following the Nature figure guide: 183 mm wide, sans-serif (Arial-metric Liberation Sans)
 5–7 pt, Okabe–Ito colour-blind-safe palette, bars from zero, no frames/boxes/grid, thin axes, direct x labels.
 Notation: mechanism = prescribed operator vocabulary, integration = closed-form synthesis (the M and I of MOTION)."""
 import sys, os

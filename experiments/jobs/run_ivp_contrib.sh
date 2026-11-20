@@ -1,7 +1,7 @@
 #!/bin/bash
 # REVISION-R1 10-27 (user): mechanism-head contribution shares of the pretrained MOTION-IVP (stage-3 option C,
-# motion_ivps_gn3w/ckpt_best) on the six Poseidon pretraining families, for D / AUC (figs/align_metrics.py) in main
-# Fig. 4c. Same env as the pretraining (run_ivps_s3w.sh): no metadata, 8 generic branches merged, receding horizon on
+# motion_ivps_gn3w/ckpt_best) on the six Poseidon pretraining families, for D / AUC (figs/align_metrics.py) in
+# Supplementary Note 3.2. Same env as the pretraining (run_ivps_s3w.sh): no metadata, 8 generic branches merged, receding horizon on
 # all six families -> eval_contrib.py probes the first hop-1 step (model.step) from a 10-frame window at t0 = 0.
 # Env: CKPT, TAG, N (trajectories per family, default 32), SPLIT (default test).
 set -e

@@ -1,6 +1,6 @@
 #!/bin/bash
-# MOTION-NS-S: the Navier--Stokes multi-family model of the joint benchmark (paper Fig. 2: vs BCAT / PROSE-FD) retrained
-# on the MOTION-S architecture (revision R1/R2: Figs 2-4 previously used the motion_tf model, not the one in Methods).
+# MOTION-NS-S: the Navier--Stokes multi-family model of the joint benchmark (Fig. 4a: vs BCAT / PROSE-FD), trained
+# on the MOTION-S architecture of the Methods.
 #   Same six families and the SAME training budget as the published MOTION-NS / BCAT / PROSE-FD runs:
 #   160,000 updates x effective batch 8 (2 H100 x 4 per replica) = 1.28M sample views, single stage, bf16.
 #   LR: the published MOTION-NS (bylfa) schedule exactly: peak 1e-4, linear warmup from 2% over 4k steps, cosine to 5%

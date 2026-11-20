@@ -1,5 +1,5 @@
 # REVISION-R1 10-22: same panel as v6 with the MOTION column = MOTION-NS-S (zsc, ckpt_160000), same samples (matched by GT).
-"""Fig3d v6 = v5 typography (Times New Roman, row labels clear of the images) WITH the
+"""Contour panels of Supplementary Fig. 13 (file name from development: fig3d). v6 = v5 typography (Times New Roman, row labels clear of the images) WITH the
 per-case physics diagnostic column that v5 dropped when it overwrote v4's output file.
 
 The sixth column is v4's, unchanged in substance -- it quantifies HOW each model's error

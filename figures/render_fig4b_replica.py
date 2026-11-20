@@ -1,4 +1,4 @@
-"""Fig. 4b (R1) (revision R1, 10-22; R1-5 / R2 / R3-3): trajectory-level replica error ratio
+"""Fig. 4d (file name from development: fig4b) (revision R1, 10-22; R1-5 / R2 / R3-3): trajectory-level replica error ratio
 rho = mean_g err_g / err_id (1 = equivariant) per family, median with bootstrap 95% CI, for the released weights and
 their baselines on the same held-out trajectories, from 03_analyses/equiv_full/stats3*.json (stats_equiv3.py).
 Families of each comparison are grouped; the paired Holm-adjusted Wilcoxon p of MOTION vs each baseline is annotated.
@@ -53,7 +53,7 @@ COL["MOTION-IVP"] = "#2a9d8f"; LAB["MOTION-IVP"] = "MOTION-IVP"
 # the per-trajectory npz was not written) -> open marker, no interval (03_analyses/ivps_equiv_gn3w/means_from_log.json)
 # _IVP = json.load(open(os.path.join(HERE, "..", "results", "ivps_equiv_gn3w", "means_from_log.json")))
 # W["MOTION-IVP"] = {f: {"rho_median": v["rho_D4_mean"], "rho_ci": [v["rho_D4_mean"]] * 2} for f, v in _IVP.items()}
-COL["Poseidon-B"] = "#f0b25a"   # REVISION-R1 10-22 (user): Poseidon-B reference (capacity counterpart of MOTION, Fig. 5d)
+COL["Poseidon-B"] = "#f0b25a"   # REVISION-R1 10-22 (user): Poseidon-B reference (capacity counterpart of MOTION)
 FL.update({"diff_react": "Diffusion\u2013reaction", "ACE": "Allen\u2013Cahn"})
 
 
@@ -61,7 +61,7 @@ def star(p):
     return "" if p is None else "***" if p < 1e-3 else "**" if p < 1e-2 else "*" if p < 0.05 else "n.s."
 
 
-# REVISION-R1 10-29 (user): main Fig. 5b = the two same-corpus comparisons (Poseidon corpus, NS benchmark), side by side;
+# REVISION-R1 10-29 (user): main figure = the two same-corpus comparisons (Poseidon corpus, NS benchmark), side by side;
 # the nineteen-family panel (MOTION-S, MOTION-L) goes to the SI:  REPLICA_SET=main|si python render_fig4b_replica.py
 import sys
 SET = os.environ.get("REPLICA_SET", "main")
@@ -73,7 +73,7 @@ elif SET == "main_old":
     gs = fig.add_gridspec(1, 2, left=0.25, right=0.99, top=0.84, bottom=0.13, wspace=0.75)
     plt.rcParams.update({"font.size": 10.5})
     axes = [fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])]
-# REVISION-R1 10-30 (user): main Fig. 4e = per corpus, replica error ratio rho and the error change under symmetry
+# REVISION-R1 10-30 (user): main Fig. 4d = per corpus, replica error ratio rho and the error change under symmetry
 # averaging (median per-trajectory gain, %; negative = averaging reduces the error) side by side on shared family rows.
 # The gain axis is symlog (linear within +-10 %) with a blue (error reduced) / red (error increased) band.
 if SET == "main":

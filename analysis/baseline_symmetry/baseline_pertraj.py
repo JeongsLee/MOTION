@@ -1,6 +1,6 @@
 """REVISION-R1 (10-22; R1-5 / R2 / R3-3 paired statistics): PER-TRAJECTORY equivariance metrics of BCAT / PROSE-FD on the
 six joint-benchmark families (test-600, 100 per family) from the existing /eu symmetry dumps, for paired tests against
-MOTION-NS on the same trajectories. Conventions are those of the published (corrected) Fig. 4 numbers:
+MOTION-NS on the same trajectories. Conventions are those of the corrected equivalence numbers of Fig. 4d:
   * shallow_water: h only (channel 0), scalar flips / transpose / roll (swe_recompute.py, FIXED);
   * other families: replica_all.py inverse (row mirror negates ch0, column mirror ch1, transpose swaps ch0 <-> ch1),
     error over the real channels (GT rms > 0); CFDBench adds the scalar row mirror on the 2 flow channels (frns);

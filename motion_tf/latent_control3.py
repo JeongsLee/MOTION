@@ -1,4 +1,4 @@
-"""MECHANISM-LEVEL response to spatially varying latent advection commands (revision R1, main Fig. 2d/e, 2026-10-19).
+"""MECHANISM-LEVEL response to spatially varying latent advection commands (revision R1, main Fig. 2c-h, 2026-10-19).
 A uniform latent-velocity command is a Galilean translation (kinematic and dynamic references coincide). For spatially
 varying commands they separate; the test is whether the model's response follows the PDE or a passive image warp.
   (d) SHEAR (solenoidal): dU_0 = A sin(2 pi x_1 / n), dU_1 = 0.  Families NS-Sines, incom_ns.
@@ -365,7 +365,7 @@ for fam in a.fams.split(","):
                                   net_model=float(drho.sum()), abs_model=float(np.abs(drho).sum()), mass_total=float(rho.sum()))
                         if i == 0 and amp == 1.0:
                             store[f"{fam}|{kind}|rho"] = np.stack([drho, cont, kinr]).astype(np.float32)
-                        if i == 0:                       # FIELDS (main Fig. 2d): input, base step 1, commanded step 1,
+                        if i == 0:                       # FIELDS (main Fig. 2f): input, base step 1, commanded step 1,
                             store[f"{fam}|{kind}{amp:g}|rhofields"] = np.stack(        # base + continuity (GT), base + warp
                                 [rho, B[0][..., irho], P[0][..., irho], B[0][..., irho] + cont, B[0][..., irho] + kinr]).astype(np.float32)
                             store[f"{fam}|{kind}{amp:g}|U"] = U.astype(np.float32)

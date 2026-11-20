@@ -230,7 +230,7 @@ class V3Model(tf.keras.Model):
                                                use_bias=False, name="tgate")
             # REVISION-R1 warp ablation (A06/A04). MOTION_WARP_MODE:
             #   blend   (default) one static latent displacement, single shot (the original carrier)
-            #   advbank (W2) Fig.2 adv_bank style: a learned latent VELOCITY field traced backward
+            #   advbank (W2): a learned latent VELOCITY field traced backward
             #           along curved characteristics in WARP_SUBSTEPS substeps (u sampled at the
             #           moving departure point), displacement clipped
             #   physvel (W3) prescribed transport by the state's OWN velocity slots (u_prev slots
@@ -611,7 +611,7 @@ class V3Model(tf.keras.Model):
             dfeat = tf.reshape(dq, [tf.shape(dq)[0], -1, self.n_semantic, self.n_dict])
         dudt = None
         if ret_dudt:
-            # ANALYTIC RATE AT AN INTERIOR COLLOCATION TIME (Fig2 arm-2 v3). Data labels exist
+            # ANALYTIC RATE AT AN INTERIOR COLLOCATION TIME (development option). Data labels exist
             # only at integer frames; the physics residual is therefore evaluated at a RANDOM
             # panel-interior time tau in (0,1] where no label exists, so it can never compete
             # with the data loss (PINN collocation in time). ADA makes this analytic: z(tau) is

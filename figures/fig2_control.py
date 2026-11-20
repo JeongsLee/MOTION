@@ -277,7 +277,7 @@ if FIELDS:            # base | command | prediction | ground truth (NS solver wi
     _aa = np.linspace(0.72, 1.33, 50); axc.plot(_aa, _aa ** _p, "--", color=MUTED, lw=0.6, zorder=0)
     axc.text(0.05, 0.93, f"$\\nu \\propto \\alpha^{{{_p:.1f}}}$ ($R^2$ = {_r2:.2f})", transform=axc.transAxes, fontsize=4.5*FS, va="top")
     J["c_calcurve"]["power"] = dict(p=_p, R2=float(_r2))
-    _star = float(_mults(f"{L}/out_knob/x0one_group.npz", 1.217)[-1])     # held-out traj 5, unbiased-start fit (2.10; SI Note 11)
+    _star = float(_mults(f"{L}/out_knob/x0one_group.npz", 1.217)[-1])     # held-out traj 5, unbiased-start fit (2.10; Supplementary Note 2.4)
     axc.plot([1.217], [_star], "*", color=VER, ms=5, mec=INK, mew=0.3, zorder=5); J["c_calcurve"]["star_heldout"] = _star
     axc.set_yscale("log"); axc.set_xscale("log"); axc.set_xticks([0.8, 1.0, 1.2]); axc.xaxis.set_major_formatter(FixedFormatter(["0.8", "1", "1.2"])); axc.xaxis.set_minor_formatter(NullFormatter()); axc.set_yticks([0.5, 1, 2]); axc.yaxis.set_major_formatter(FixedFormatter(["0.5", "1", "2"]))
     axc.yaxis.set_minor_formatter(NullFormatter()); axc.set_ylim(0.3, 3.2); axc.set_xlim(0.7, 1.35)

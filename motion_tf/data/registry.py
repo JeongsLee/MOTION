@@ -222,7 +222,7 @@ _MESH = [
 ]
 
 # --------------------------------------------------------------------------- #
-# Fig2 downstream (NOT in MOTION_FAMILIES / pretraining): few-shot transfer targets.
+# Downstream families (NOT in MOTION_FAMILIES / pretraining): fine-tuning targets.
 # APPENDED LAST so every pretrain family keeps its fam_id — warm-started per-family
 # heads/embeddings stay aligned; the new families get fresh rows at the end.
 # --------------------------------------------------------------------------- #
@@ -232,7 +232,7 @@ _FIG2_DOWNSTREAM = [
     # GCE-RT: gravitational compressible Euler (Rayleigh-Taylor). Raw nc channel order per
     # scOT RayleighTaylor: [rho, u, v, p, g]; the 6th file channel is unused (scOT
     # input_dim=5). g (gravitational potential) lands on the scalar slot 2 -> feeds the
-    # buoyancy head: the OOD-recombination story (buoyancy x compressibility) of Fig2b.
+    # buoyancy head: the OOD-recombination story (buoyancy x compressibility).
     FamilySpec("GCE-RT", 2, "grid_nchw", "raw/poseidon/GCE-RT",
                channels=(3, 0, 1, 4, 2),
                symbolic="gravitational compressible Euler, Rayleigh-Taylor instability",
