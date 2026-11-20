@@ -239,7 +239,7 @@ _FIG2_DOWNSTREAM = [
                operators=("advection", "divergence", "pressure_grad", "buoyancy"),
                stage="downstream", split_source="official:poseidon"),
     # PoolBoil (BubbleML Subcooled 2D): 10 trajectories (Twall 79-110C), phase-change boiling.
-    # Fig2c: the NEW-mechanism insertion testbed (arm B adds a phase_interface bank).
+    # Development families for the phase_interface head (not used in the paper).
     # Channels [velx, vely, temperature, dfun(SDF interface)] -> slots (0,1,5,6).
     # 08-11: pressure DROPPED — rms 6.95 dominates the joint metric while being unpredictable
     # (rel 2.4; Walrus measured 1.23 and excluded it too). 4-field set = Walrus canon.
@@ -250,8 +250,8 @@ _FIG2_DOWNSTREAM = [
                param_names=("twall",), param_source="none",
                bc=("wall", "open", "periodic"), stage="downstream",
                split_source="official:combo-2.0train-1.0valtest"),
-    # arm B: SAME data, operators additionally declare phase_change -> the op-mask opens the
-    # new phase_interface bank. arm A (PoolBoil-Sub) never sees it (masked).
+    # PoolBoil-SubX: SAME data, operators additionally declare phase_change -> the op-mask opens the
+    # phase_interface head. PoolBoil-Sub never sees it (masked). Not used in the paper.
     FamilySpec("PoolBoil-SubX", 2, "grid_nchw", "raw/bubbleml/poolboil_combo",
                channels=(0, 1, 5, 6),
                symbolic="incompressible two-phase boiling with phase change; subcooled pool",

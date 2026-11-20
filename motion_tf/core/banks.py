@@ -211,9 +211,11 @@ class TendencyBanks(tf.keras.layers.Layer):
         self.names = ["reaction", "diffusion", "buoyancy", "shear", "wave",
                       "advection", "shock", "elliptic", "geometry", "boundary_layer",
                       "dilatation", "gradvec",
-                      # Fig2c NEW-MECHANISM slot (PoolBoil arm B): interface-localized drive
-                      # |grad h| * lap(h). Zero-init gate + op-mask ("phase_change") keep it an
-                      # exact no-op for every existing family and at warm-start load.
+                      # interface-sensitive head kept from development, not part of the vocabulary
+                      # analysed in the paper: |grad h| * lap(h). Zero-init gate + op-mask
+                      # ("phase_change", a token that no family of the paper carries) keep it an
+                      # exact no-op with metadata and at warm-start load; models trained without
+                      # metadata apply no op-mask, so every head including this one is open.
                       "phase_interface"]
         self.heads = {m: tf.keras.layers.Dense(
             out, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=1e-3),
